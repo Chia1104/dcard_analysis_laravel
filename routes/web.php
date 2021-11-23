@@ -17,6 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/getAllDcard', 'GetAllDcardController@index');
 Route::get('/date/{date1}/{date2}', 'GetDateDcardController@index');
 Route::get('/date/today', 'GetTodayDcardController@index');
 Route::get('/date/week', 'GetWeekDcardController@index');
