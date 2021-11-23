@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\GetAllDcard;
+use App\Models\GetDateDcard;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Response;
 
-class GetAllDcardController extends Controller
+class GetDateDcardController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($date1, $date2)
     {
         $dcardAll = DB::table('dcard_rawdata')
         ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
@@ -23,6 +23,7 @@ class GetAllDcardController extends Controller
         ->select('dcard_rawdata.Id', 'dcard_rawdata.Title', 'dcard_rawdata.CreatedAt', 'dcard_rawdata.Content'
         , 'nlp_analysis.SA_Score', 'nlp_analysis.SA_Class', 'comparison.Level', 'comparison.KeywordLevel1', 
         'comparison.KeywordLevel2', 'comparison.KeywordLevel3')
+        ->whereBetween('dcard_rawdata.CreatedAt', [$date1, $date2])
         ->orderByDesc('dcard_rawdata.Id')
         ->get();
 
@@ -54,10 +55,10 @@ class GetAllDcardController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\GetAllDcard  $getAllDcard
+     * @param  \App\Models\GetDateDcard  $getDateDcard
      * @return \Illuminate\Http\Response
      */
-    public function show(GetAllDcard $getAllDcard)
+    public function show(GetDateDcard $getDateDcard)
     {
         //
     }
@@ -65,10 +66,10 @@ class GetAllDcardController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\GetAllDcard  $getAllDcard
+     * @param  \App\Models\GetDateDcard  $getDateDcard
      * @return \Illuminate\Http\Response
      */
-    public function edit(GetAllDcard $getAllDcard)
+    public function edit(GetDateDcard $getDateDcard)
     {
         //
     }
@@ -77,10 +78,10 @@ class GetAllDcardController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\GetAllDcard  $getAllDcard
+     * @param  \App\Models\GetDateDcard  $getDateDcard
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, GetAllDcard $getAllDcard)
+    public function update(Request $request, GetDateDcard $getDateDcard)
     {
         //
     }
@@ -88,10 +89,10 @@ class GetAllDcardController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\GetAllDcard  $getAllDcard
+     * @param  \App\Models\GetDateDcard  $getDateDcard
      * @return \Illuminate\Http\Response
      */
-    public function destroy(GetAllDcard $getAllDcard)
+    public function destroy(GetDateDcard $getDateDcard)
     {
         //
     }
