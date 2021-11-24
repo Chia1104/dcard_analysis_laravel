@@ -156,7 +156,7 @@ class GBChart4DataController extends Controller
             "m3neuCount" => $m3neuCount,
             "m3negCount" => $m3negCount,
         ];
-        return response()->json($output, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+        return response()->json($output[], 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
         JSON_UNESCAPED_UNICODE);
     }
 
