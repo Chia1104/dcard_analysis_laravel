@@ -138,7 +138,7 @@ class GBChart4DataController extends Controller
         ->orderByDesc('dcard_rawdata.Id')
         ->get();
         $m3negCount = collect($m3neg)->count();
-        $output = [
+        $output[] = [
             "m0" => $m0,
             "m0posCount" => $m0posCount,
             "m0neuCount" => $m0neuCount,

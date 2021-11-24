@@ -380,7 +380,7 @@ class GBChart12DataController extends Controller
         ->get();
         $m11negCount = collect($m11neg)->count();
         
-        $output = [
+        $output[] = [
             "m0" => $m0,
             "m0posCount" => $m0posCount,
             "m0neuCount" => $m0neuCount,
