@@ -18,6 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('/getAllDcard', 'GetAllDcardController@index');
+Route::get('/getAllDcard/fillter/{id}', 'GetAllDcardController@fillterId');
 Route::get('/article/{id}', 'GetArticleIdController@index');
 Route::get('/date/{date1}/{date2}', 'GetDateDcardController@index');
 Route::get('/date/today', 'GetTodayDcardController@index');
