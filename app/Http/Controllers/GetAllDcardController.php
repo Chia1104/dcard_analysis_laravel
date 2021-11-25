@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Response;
+use Laravel\Scout\Searchable;
 
 class GetAllDcardController extends Controller
 {
@@ -35,7 +36,7 @@ class GetAllDcardController extends Controller
         }
     }
 
-    public function fillterId($fillterId) {
+    public function beforeId($beforeId) {
         $dcardAll = DB::table('dcard_rawdata')
         ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
         ->leftJoin('comparison', 'comparison.Id', '=', 'nlp_analysis.Id')
@@ -43,8 +44,27 @@ class GetAllDcardController extends Controller
         , 'nlp_analysis.SA_Score', 'nlp_analysis.SA_Class', 'comparison.Level', 'comparison.KeywordLevel1', 
         'comparison.KeywordLevel2', 'comparison.KeywordLevel3')
         ->orderByDesc('dcard_rawdata.Id')
-        ->where('dcard_rawdata.Id', '<', $fillterId)
+        ->where('dcard_rawdata.Id', '<', $beforeId)
         ->limit(30)
+        ->get();
+
+        if (!$dcardAll->isEmpty()){
+            return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+                JSON_UNESCAPED_UNICODE);
+        } else {
+            return 'null';
+        }
+    }
+
+    public function searchContent($searchContent) {
+        $dcardAll = DB::table('dcard_rawdata')
+        ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
+        ->leftJoin('comparison', 'comparison.Id', '=', 'nlp_analysis.Id')
+        ->select('dcard_rawdata.Id', 'dcard_rawdata.Title', 'dcard_rawdata.CreatedAt', 'dcard_rawdata.Content'
+        , 'nlp_analysis.SA_Score', 'nlp_analysis.SA_Class', 'comparison.Level', 'comparison.KeywordLevel1', 
+        'comparison.KeywordLevel2', 'comparison.KeywordLevel3')
+        ->orderByDesc('dcard_rawdata.Id')
+        ->search($searchContent)
         ->get();
 
         if (!$dcardAll->isEmpty()){
