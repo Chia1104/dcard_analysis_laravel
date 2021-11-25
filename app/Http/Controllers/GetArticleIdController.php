@@ -26,8 +26,12 @@ class GetArticleIdController extends Controller
         ->whereIn('dcard_rawdata.Id', [$id])
         ->get();
 
-        return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
-        JSON_UNESCAPED_UNICODE);
+        if (!$dcardAll->isEmpty()){
+            return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+                JSON_UNESCAPED_UNICODE);
+        } else {
+            return 'null';
+        }
     }
 
     /**

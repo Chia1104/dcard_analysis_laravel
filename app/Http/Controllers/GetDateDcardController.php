@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Response;
+use Illuminate\Database\Eloquent\Model;
 
 class GetDateDcardController extends Controller
 {
@@ -26,9 +27,12 @@ class GetDateDcardController extends Controller
         ->whereBetween('dcard_rawdata.CreatedAt', [$date1, $date2])
         ->orderByDesc('dcard_rawdata.Id')
         ->get();
-
-        return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
-        JSON_UNESCAPED_UNICODE);
+        if (!$dcardAll->isEmpty()){
+            return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+                JSON_UNESCAPED_UNICODE);
+        } else {
+            return 'null';
+        }
     }
 
     /**
