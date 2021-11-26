@@ -140,7 +140,7 @@ class LineChart12DataController extends Controller
         ->orderByDesc('dcard_rawdata.Id')
         ->avg('nlp_analysis.SA_Score');
         $m11score = round($m11score, 2);
-        $output = [
+        $output[] = [
             "m0" => $m0,
             "m0score" => $m0score,
             "m1" => $m1,
