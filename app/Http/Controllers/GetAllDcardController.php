@@ -63,7 +63,8 @@ class GetAllDcardController extends Controller
         , 'nlp_analysis.SA_Score', 'nlp_analysis.SA_Class', 'comparison.Level', 'comparison.KeywordLevel1', 
         'comparison.KeywordLevel2', 'comparison.KeywordLevel3')
         ->orderByDesc('dcard_rawdata.Id')
-        ->where('dcard_rawdata.Content', 'LIKE', '%' . $content .' %')
+        ->where('dcard_rawdata.Content', 'LIKE', "%{$content}%")
+        ->orWhere('dcard_rawdata.Title', 'LIKE', "%{$content}%")
         ->get();
 
         if (!$dcardAll->isEmpty()){
