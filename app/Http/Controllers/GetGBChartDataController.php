@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Response;
 use PDO;
 use Illuminate\Support\Collection;
+use Carbon\Carbon;
 
 class GetGBChartDataController extends Controller
 {
@@ -17,41 +18,18 @@ class GetGBChartDataController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($date1, $date2)
+    public function index()
     {
-        $m0pos = DB::table('dcard_rawdata')
+        $m0d31 = date("Y-m-d", strtotime("last day of 0 month"));
+        $m11d1 = date("Y-m-d", strtotime("first day of -11 month"));
+        $m0 = DB::table('dcard_rawdata')
         ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
-        ->select('nlp_analysis.SA_Class')
-        ->whereIn('nlp_analysis.SA_Class', ["Positive"])
-        ->whereBetween('dcard_rawdata.CreatedAt', [$date1, $date2])
-        ->orderByDesc('dcard_rawdata.Id')
+        ->select(DB::raw('avg(nlp_analysis.SA_Score) as avgScore'), DB::raw("DATE_FORMAT(dcard_rawdata.CreatedAt, '%Y-%m') as newDate"))
+        ->groupBy('newDate')
+        ->orderByDesc('newDate')
+        ->whereBetween('dcard_rawdata.CreatedAt', [$m11d1, $m0d31])
         ->get();
-        $m0posCount = collect($m0pos)->count();
-
-        $m0neu = DB::table('dcard_rawdata')
-        ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
-        ->select('nlp_analysis.SA_Class')
-        ->whereIn('nlp_analysis.SA_Class', ["Neutral"])
-        ->whereBetween('dcard_rawdata.CreatedAt', [$date1, $date2])
-        ->orderByDesc('dcard_rawdata.Id')
-        ->get();
-        $m0neuCount = collect($m0neu)->count();
-
-        $m0neg = DB::table('dcard_rawdata')
-        ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
-        ->select('nlp_analysis.SA_Class')
-        ->whereIn('nlp_analysis.SA_Class', ["Negative"])
-        ->whereBetween('dcard_rawdata.CreatedAt', [$date1, $date2])
-        ->orderByDesc('dcard_rawdata.Id')
-        ->get();
-        $m0negCount = collect($m0neg)->count();
-
-        $output[] = [
-            "m0posCount" => $m0posCount,
-            "m0neuCount" => $m0neuCount,
-            "m0negCount" => $m0negCount,
-        ];
-        return response()->json($output, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+        return response()->json($m0, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
         JSON_UNESCAPED_UNICODE);
     }
 
