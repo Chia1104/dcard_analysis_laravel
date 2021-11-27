@@ -22,14 +22,35 @@ class GetGBChartDataController extends Controller
     {
         $m0d31 = date("Y-m-d", strtotime("last day of 0 month"));
         $m11d1 = date("Y-m-d", strtotime("first day of -11 month"));
-        $m0 = DB::table('dcard_rawdata')
+        $posCount = DB::table('dcard_rawdata')
         ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
-        ->select(DB::raw('avg(nlp_analysis.SA_Score) as avgScore'), DB::raw("DATE_FORMAT(dcard_rawdata.CreatedAt, '%Y-%m') as newDate"))
+        ->select(DB::raw('count(nlp_analysis.SA_Class) as posCount'), DB::raw("DATE_FORMAT(dcard_rawdata.CreatedAt, '%Y-%m') as newDate"))
+        ->where('nlp_analysis.SA_Class', 'Positive')
         ->groupBy('newDate')
         ->orderByDesc('newDate')
         ->whereBetween('dcard_rawdata.CreatedAt', [$m11d1, $m0d31])
         ->get();
-        return response()->json($m0, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+        $posCount = collect($posCount);
+        $neuCount = DB::table('dcard_rawdata')
+        ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
+        ->select(DB::raw('count(nlp_analysis.SA_Class) as neuCount'), DB::raw("DATE_FORMAT(dcard_rawdata.CreatedAt, '%Y-%m') as newDate"))
+        ->where('nlp_analysis.SA_Class', 'Neutral')
+        ->groupBy('newDate')
+        ->orderByDesc('newDate')
+        ->whereBetween('dcard_rawdata.CreatedAt', [$m11d1, $m0d31])
+        ->get();
+        $neuCount = collect($neuCount);
+        $negCount = DB::table('dcard_rawdata')
+        ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
+        ->select(DB::raw('count(nlp_analysis.SA_Class) as neuCount'), DB::raw("DATE_FORMAT(dcard_rawdata.CreatedAt, '%Y-%m') as newDate"))
+        ->where('nlp_analysis.SA_Class', 'Negative')
+        ->groupBy('newDate')
+        ->orderByDesc('newDate')
+        ->whereBetween('dcard_rawdata.CreatedAt', [$m11d1, $m0d31])
+        ->get();
+        $negCount = collect($negCount);
+        $merged = $posCount->merge($neuCount)->merge($negCount);
+        return response()->json($merged, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
         JSON_UNESCAPED_UNICODE);
     }
 
