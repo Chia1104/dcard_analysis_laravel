@@ -24,7 +24,7 @@ class GetGBChartDataController extends Controller
         $m11d1 = date("Y-m-d", strtotime("first day of -11 month"));
         $posCount = DB::table('dcard_rawdata')
         ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
-        ->select(DB::raw('count(nlp_analysis.SA_Class) as posCount'), DB::raw("DATE_FORMAT(dcard_rawdata.CreatedAt, '%Y-%m') as newDate"))
+        ->select(DB::raw('count(nlp_analysis.SA_Class) as Count'), DB::raw("DATE_FORMAT(dcard_rawdata.CreatedAt, '%Y-%m') as newDate"))
         ->where('nlp_analysis.SA_Class', 'Positive')
         ->groupBy('newDate')
         ->orderByDesc('newDate')
@@ -33,7 +33,7 @@ class GetGBChartDataController extends Controller
         $posCount = collect($posCount);
         $neuCount = DB::table('dcard_rawdata')
         ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
-        ->select(DB::raw('count(nlp_analysis.SA_Class) as neuCount'), DB::raw("DATE_FORMAT(dcard_rawdata.CreatedAt, '%Y-%m') as newDate"))
+        ->select(DB::raw('count(nlp_analysis.SA_Class) as Count'), DB::raw("DATE_FORMAT(dcard_rawdata.CreatedAt, '%Y-%m') as newDate"))
         ->where('nlp_analysis.SA_Class', 'Neutral')
         ->groupBy('newDate')
         ->orderByDesc('newDate')
@@ -42,7 +42,7 @@ class GetGBChartDataController extends Controller
         $neuCount = collect($neuCount);
         $negCount = DB::table('dcard_rawdata')
         ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
-        ->select(DB::raw('count(nlp_analysis.SA_Class) as neuCount'), DB::raw("DATE_FORMAT(dcard_rawdata.CreatedAt, '%Y-%m') as newDate"))
+        ->select(DB::raw('count(nlp_analysis.SA_Class) as Count'), DB::raw("DATE_FORMAT(dcard_rawdata.CreatedAt, '%Y-%m') as newDate"))
         ->where('nlp_analysis.SA_Class', 'Negative')
         ->groupBy('newDate')
         ->orderByDesc('newDate')
