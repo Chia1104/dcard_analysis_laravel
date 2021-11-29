@@ -20,11 +20,14 @@ class UserController extends Controller
     public function login(){
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
             $user = Auth::user();
-            $success =  $user->createToken('MyApp')->accessToken;
-            return response()->json(['message' => $success], $this->successStatus);
+            $success['message'] = 'success';
+            $success['token'] =  $user->createToken('MyApp')->accessToken;
+            $success['name'] =  $user->name;
+            return response()->json($success, $this->successStatus);
         }
         else {
-            return response()->json(['message' => 'Unauthorised'], 401);
+            $error['message'] = 'Unauthorised';
+            return response()->json($error, 401);
         }
     }
 
@@ -45,18 +48,19 @@ class UserController extends Controller
 
 
         if ($validator->fails()) {
-            return response()->json(['error'=>$validator->errors()], 401);            
+            return response()->json(['message'=>$validator->errors()], 401);            
         }
 
 
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
+        $success['message'] = 'success';
         $success['token'] =  $user->createToken('MyApp')->accessToken;
         $success['name'] =  $user->name;
 
 
-        return response()->json(['success'=>$success], $this->successStatus);
+        return response()->json($success, $this->successStatus);
     }
 
 
@@ -68,6 +72,13 @@ class UserController extends Controller
     public function details()
     {
         $user = Auth::user();
-        return response()->json(['success' => $user], $this->successStatus);
+        $success['message'] = 'success';
+        $success['id'] = $user->id;
+        $success['name'] = $user->name;
+        $success['email'] = $user->email;
+        $success['email_verified_at'] = $user->email_verified_at;
+        $success['created_at'] = $user->created_at;
+        $success['updated_at'] = $user->updated_at;
+        return response()->json($success, $this->successStatus);
     }
 }
