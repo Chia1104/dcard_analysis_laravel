@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Validator;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -18,10 +19,11 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function login(){
+        $randomstr = Str::random(30);
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
             $user = Auth::user();
             $success['message'] = 'success';
-            $success['token'] =  $user->createToken('MyApp')->accessToken;
+            $success['token'] =  $user->createToken($randomstr)->accessToken;
             $success['name'] =  $user->name;
             return response()->json($success, $this->successStatus);
         }
@@ -39,6 +41,7 @@ class UserController extends Controller
      */
     public function register(Request $request)
     {
+        $randomstr = Str::random(30);
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email',
@@ -56,7 +59,7 @@ class UserController extends Controller
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
         $success['message'] = 'success';
-        $success['token'] =  $user->createToken('MyApp')->accessToken;
+        $success['token'] =  $user->createToken($randomstr)->accessToken;
         $success['name'] =  $user->name;
 
 
