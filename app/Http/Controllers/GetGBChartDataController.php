@@ -18,17 +18,15 @@ class GetGBChartDataController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($date1, $date2)
     {
-        $m0d31 = date("Y-m-d", strtotime("last day of 0 month"));
-        $m11d1 = date("Y-m-d", strtotime("first day of -11 month"));
         $posCount = DB::table('dcard_rawdata')
         ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
         ->select(DB::raw('count(nlp_analysis.SA_Class) as Count'), DB::raw("DATE_FORMAT(dcard_rawdata.CreatedAt, '%Y-%m') as newDate"))
         ->where('nlp_analysis.SA_Class', 'Positive')
         ->groupBy('newDate')
         ->orderByDesc('newDate')
-        ->whereBetween('dcard_rawdata.CreatedAt', [$m11d1, $m0d31])
+        ->whereBetween('dcard_rawdata.CreatedAt', [$date1, $date2])
         ->get();
         $posCount = collect($posCount);
         $neuCount = DB::table('dcard_rawdata')
@@ -37,7 +35,7 @@ class GetGBChartDataController extends Controller
         ->where('nlp_analysis.SA_Class', 'Neutral')
         ->groupBy('newDate')
         ->orderByDesc('newDate')
-        ->whereBetween('dcard_rawdata.CreatedAt', [$m11d1, $m0d31])
+        ->whereBetween('dcard_rawdata.CreatedAt', [$date1, $date2])
         ->get();
         $neuCount = collect($neuCount);
         $negCount = DB::table('dcard_rawdata')
@@ -46,7 +44,7 @@ class GetGBChartDataController extends Controller
         ->where('nlp_analysis.SA_Class', 'Negative')
         ->groupBy('newDate')
         ->orderByDesc('newDate')
-        ->whereBetween('dcard_rawdata.CreatedAt', [$m11d1, $m0d31])
+        ->whereBetween('dcard_rawdata.CreatedAt', [$date1, $date2])
         ->get();
         $negCount = collect($negCount);
         $merged = $posCount->merge($neuCount)->merge($negCount);

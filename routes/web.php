@@ -16,16 +16,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/getAllDcard', 'GetAllDcardController@index');
-Route::get('/getAllDcard/before/{beforeId}', 'GetAllDcardController@beforeId');
-Route::get('/getAllDcard/search/{content}', 'GetAllDcardController@searchContent');
-Route::get('/article/{id}', 'GetArticleIdController@index');
-Route::get('/date/{date1}/{date2}', 'GetDateDcardController@index');
-Route::get('/date/today', 'GetTodayDcardController@index');
-Route::get('/date/week', 'GetWeekDcardController@index');
-Route::get('/date/month', 'GetMonthDcardController@index');
-Route::get('/GBChart12Data', 'GBChart12DataController@index');
-Route::get('/GBChart4Data', 'GBChart4DataController@index');
-Route::get('/GBChartData', 'GetGBChartDataController@index');
-Route::get('/LineChart12Data', 'LineChart12DataController@index');
