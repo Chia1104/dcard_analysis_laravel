@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -16,9 +17,10 @@ class UserController extends Controller
     /**
      * login api
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function login(){
+    public function login(): JsonResponse
+    {
         $randomstr = Str::random(30);
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
             $user = Auth::user();
@@ -37,9 +39,10 @@ class UserController extends Controller
     /**
      * Register api
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function register(Request $request)
+    public function register(Request $request): JsonResponse
     {
         $randomstr = Str::random(30);
         $validator = Validator::make($request->all(), [
@@ -51,7 +54,7 @@ class UserController extends Controller
 
 
         if ($validator->fails()) {
-            return response()->json(['message'=>$validator->errors()], 401);            
+            return response()->json(['message'=>$validator->errors()], 401);
         }
 
 
@@ -70,9 +73,9 @@ class UserController extends Controller
     /**
      * details api
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function details()
+    public function details(): JsonResponse
     {
         $user = Auth::user();
         $success['message'] = 'success';
