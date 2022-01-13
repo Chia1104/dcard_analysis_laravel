@@ -20,9 +20,11 @@ class GetWeekDcardController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $day = date('w');
-            $week_start = date('Y-m-d', strtotime('-'.$day.' days'));
-            $week_end = date('Y-m-d', strtotime('+'.(6-$day).' days'));
+//            $day = date('w');
+//            $week_start = date('Y-m-d', strtotime('-'.$day.' days'));
+//            $week_end = date('Y-m-d', strtotime('+'.(6-$day).' days'));
+            $week_start = "2021-11-07";
+            $week_end = "2021-11-13";
             $dcardAll = DB::table('dcard_rawdata')
                 ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
                 ->leftJoin('comparison', 'comparison.Id', '=', 'nlp_analysis.Id')

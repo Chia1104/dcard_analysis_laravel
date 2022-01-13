@@ -20,8 +20,10 @@ class GetMonthDcardController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $m0d1 = date("Y-m-d", strtotime("first day of 0 month"));
-            $m0d31 = date("Y-m-d", strtotime("last day of 0 month"));
+//            $m0d1 = date("Y-m-d", strtotime("first day of 0 month"));
+//            $m0d31 = date("Y-m-d", strtotime("last day of 0 month"));
+            $m0d1 = "2021-11-01";
+            $m0d31 = "2021-11-30";
             $dcardAll = DB::table('dcard_rawdata')
                 ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
                 ->leftJoin('comparison', 'comparison.Id', '=', 'nlp_analysis.Id')

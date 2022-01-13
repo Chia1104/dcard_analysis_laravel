@@ -22,8 +22,10 @@ class GBChart4DataController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $m0d31 = date("Y-m-d", strtotime("last day of 0 month"));
+//            $m0d31 = date("Y-m-d", strtotime("last day of 0 month"));
             $m3d1 = date("Y-m-d", strtotime("first day of -3 month"));
+            $m0d31 = "2021-11-30";
+            $m3d1 = "2021-08-01";
             $posCount = DB::table('dcard_rawdata')
                 ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
                 ->select(DB::raw('count(nlp_analysis.SA_Class) as Count'), DB::raw("DATE_FORMAT(dcard_rawdata.CreatedAt, '%Y-%m') as newDate"))

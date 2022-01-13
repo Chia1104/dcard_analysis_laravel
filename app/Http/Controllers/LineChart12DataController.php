@@ -22,8 +22,10 @@ class LineChart12DataController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $m0d31 = date("Y-m-d", strtotime("last day of 0 month"));
-            $m11d1 = date("Y-m-d", strtotime("first day of -11 month"));
+//            $m0d31 = date("Y-m-d", strtotime("last day of 0 month"));
+//            $m11d1 = date("Y-m-d", strtotime("first day of -11 month"));
+            $m0d31 = "2021-11-30";
+            $m11d1 = "2020-12-01";
             $lineChartData = DB::table('dcard_rawdata')
                 ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
                 ->select(DB::raw('avg(nlp_analysis.SA_Score) as avgScore'), DB::raw("DATE_FORMAT(dcard_rawdata.CreatedAt, '%Y-%m') as newDate"))

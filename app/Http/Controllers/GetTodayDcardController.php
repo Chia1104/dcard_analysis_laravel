@@ -20,7 +20,8 @@ class GetTodayDcardController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $today = date("Y-m-d");
+//            $today = date("Y-m-d");
+            $today = "2021-11-09";
             $dcardAll = DB::table('dcard_rawdata')
                 ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
                 ->leftJoin('comparison', 'comparison.Id', '=', 'nlp_analysis.Id')
