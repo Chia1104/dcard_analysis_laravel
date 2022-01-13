@@ -1,6 +1,4 @@
 FROM php:8.0-fpm
-FROM node:alpine
-#FROM ubuntu:latest
 
 RUN apt-get update && apt-get install -y \
     git \
@@ -13,6 +11,9 @@ RUN apt-get update && apt-get install -y \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN docker-php-ext-install pdo_mysql mbstring
 
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash
+RUN apt-get install --yes nodejs
+
 WORKDIR /app
 COPY composer.json .
 RUN composer install --no-scripts
@@ -24,7 +25,6 @@ COPY package-lock.json ./
 RUN npm install --silent
 RUN npm install react-scripts -g --silent
 COPY . .
-
-RUN npm run watch
+RUN npm run production
 
 CMD php artisan serve --host=0.0.0.0 --port 80
