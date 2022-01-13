@@ -24,7 +24,7 @@ COPY package.json ./
 COPY package-lock.json ./
 RUN npm install --silent
 RUN npm install react-scripts -g --silent
-COPY . .
 RUN npm run production
+COPY . .
 
 CMD php artisan serve --host=0.0.0.0 --port 80
