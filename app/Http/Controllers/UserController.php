@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
-    public $successStatus = 200;
+    public int $successStatus = 200;
 
     /**
      * login api

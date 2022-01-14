@@ -20,18 +20,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', 'UserController@login');
 Route::post('register', 'UserController@register');
-Route::get('/getAllDcard/{limit}', 'GetAllDcardController@index');
-Route::get('/getAllDcard/before/{beforeId}/{limit}', 'GetAllDcardController@beforeId');
-Route::get('/getAllDcard/search/{content}', 'GetAllDcardController@searchContent');
-Route::get('/article/{id}', 'GetArticleIdController@index');
-Route::get('/date/{date1}/{date2}', 'GetDateDcardController@index');
-Route::get('/date/today', 'GetTodayDcardController@index');
-Route::get('/date/week', 'GetWeekDcardController@index');
-Route::get('/date/month', 'GetMonthDcardController@index');
-Route::get('/GBChart12Data', 'GBChart12DataController@index');
-Route::get('/GBChart4Data', 'GBChart4DataController@index');
-Route::get('/GBChartData/{date1}/{date2}', 'GetGBChartDataController@index');
-Route::get('/LineChart12Data', 'LineChart12DataController@index');
+Route::get('/getAllDcard/{limit}', 'APIController@getAllDcard');
+Route::get('/getAllDcard/before/{beforeId}/{limit}', 'APIController@beforeId');
+Route::get('/getAllDcard/search/{content}', 'APIController@searchContent');
+Route::get('/article/{id}', 'APIController@getArticle');
+Route::get('/date/{date1}/{date2}', 'APIController@getDateBetween');
+Route::get('/date/today', 'APIController@getToday');
+Route::get('/date/week', 'APIController@getWeek');
+Route::get('/date/month', 'APIController@getMonth');
+Route::get('/GBChart12Data', 'APIController@getGBChart12Month');
+Route::get('/GBChart4Data', 'APIController@getGBChart4Month');
+Route::get('/GBChartData/{date1}/{date2}', 'APIController@getGBChartDateBetween');
+Route::get('/LineChart12Data', 'APIController@getLineChart12Month');
 
 Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('details', 'UserController@details');
