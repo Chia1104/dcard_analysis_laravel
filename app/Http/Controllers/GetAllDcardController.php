@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\GetAllDcard;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Response;
 use mysql_xdevapi\Exception;
 
 class GetAllDcardController extends Controller
@@ -31,8 +29,8 @@ class GetAllDcardController extends Controller
                 ->limit($liimit)
                 ->get();
         } catch (Exception $e) {
-            $error['message'] = '404 Not Found!!';
-            return response()->json($error + $e, 404);
+            $error['message'] = '404 Not Found!!' . $e;
+            return response()->json($error, 404);
         } finally {
             if (!$dcardAll->isEmpty()){
                 return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
@@ -66,8 +64,8 @@ class GetAllDcardController extends Controller
                 ->limit($liimit)
                 ->get();
         } catch (Exception $e) {
-            $error['message'] = '404 Not Found!!';
-            return response()->json($error + $e, 404);
+            $error['message'] = '404 Not Found!!' . $e;
+            return response()->json($error, 404);
         } finally {
             if (!$dcardAll->isEmpty()){
                 return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
@@ -98,7 +96,7 @@ class GetAllDcardController extends Controller
                 ->orWhere('dcard_rawdata.Title', 'LIKE', "%{$content}%")
                 ->get();
         } catch (Exception $e) {
-            $error['message'] = '404 Not Found!!';
+            $error['message'] = '404 Not Found!!' . $e;
             return response()->json($error, 404);
         } finally {
             if (!$dcardAll->isEmpty()){

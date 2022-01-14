@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\GetTodayDcard;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Response;
 use mysql_xdevapi\Exception;
 
 class GetTodayDcardController extends Controller
@@ -32,7 +30,7 @@ class GetTodayDcardController extends Controller
                 ->orderByDesc('dcard_rawdata.Id')
                 ->get();
         } catch (Exception $e) {
-            $error['message'] = '404 Not Found!!';
+            $error['message'] = '404 Not Found!!' . $e;
             return response()->json($error, 404);
         } finally {
             if (!$dcardAll->isEmpty()){

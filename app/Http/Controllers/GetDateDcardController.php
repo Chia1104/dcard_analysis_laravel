@@ -5,10 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\GetDateDcard;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Response;
-use Illuminate\Database\Eloquent\Model;
 use mysql_xdevapi\Exception;
 
 class GetDateDcardController extends Controller
@@ -33,7 +30,7 @@ class GetDateDcardController extends Controller
                 ->orderByDesc('dcard_rawdata.Id')
                 ->get();
         } catch (Exception $e) {
-            $error['message'] = '404 Not Found!!';
+            $error['message'] = '404 Not Found!!' . $e;
             return response()->json($error, 404);
         } finally {
             if (!$dcardAll->isEmpty()){

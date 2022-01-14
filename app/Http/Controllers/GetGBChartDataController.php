@@ -5,13 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\GetGBChartData;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Response;
 use mysql_xdevapi\Exception;
-use PDO;
-use Illuminate\Support\Collection;
-use Carbon\Carbon;
 
 class GetGBChartDataController extends Controller
 {
@@ -54,7 +49,7 @@ class GetGBChartDataController extends Controller
             $negCount = collect($negCount);
             $merged = $posCount->merge($neuCount)->merge($negCount);
         } catch (Exception $e) {
-            $error['message'] = '404 Not Found!!';
+            $error['message'] = '404 Not Found!!' . $e;
             return response()->json($error, 404);
         } finally {
             if (!$merged->isEmpty()){

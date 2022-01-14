@@ -17,7 +17,8 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
         "nesbot/carbon": "^2.54",
-        "spatie/laravel-query-builder": "^4.0"
+        "spatie/laravel-query-builder": "^4.0",
+        "ext-mysql_xdevapi": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

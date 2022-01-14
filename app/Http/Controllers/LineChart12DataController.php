@@ -5,12 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\LineChart12Data;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Response;
 use mysql_xdevapi\Exception;
-use PDO;
-use Illuminate\Support\Collection;
 
 class LineChart12DataController extends Controller
 {
@@ -34,7 +30,7 @@ class LineChart12DataController extends Controller
                 ->whereBetween('dcard_rawdata.CreatedAt', [$m11d1, $m0d31])
                 ->get();
         } catch (Exception $e) {
-            $error['message'] = '404 Not Found!!';
+            $error['message'] = '404 Not Found!!' . $e;
             return response()->json($error, 404);
         } finally {
             if (!$lineChartData->isEmpty()){
