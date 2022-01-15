@@ -15,15 +15,14 @@ RUN curl -sL https://deb.nodesource.com/setup_16.x | bash
 RUN apt-get install --yes nodejs
 
 WORKDIR /app
-COPY composer.json .
+COPY composer.json ./
+COPY composer.lock ./
 RUN composer install --no-scripts
 COPY . .
 
-ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
 COPY package-lock.json ./
 RUN npm install --silent
-RUN npm install react-scripts -g --silent
 RUN npm run production
 COPY . .
 

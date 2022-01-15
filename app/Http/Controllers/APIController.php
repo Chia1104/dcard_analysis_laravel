@@ -336,7 +336,7 @@ class APIController extends Controller
     {
         try {
 //            $m0d31 = date("Y-m-d", strtotime("last day of 0 month"));
-            $m3d1 = date("Y-m-d", strtotime("first day of -3 month"));
+//            $m3d1 = date("Y-m-d", strtotime("first day of -3 month"));
             $m0d31 = "2021-11-30";
             $m3d1 = "2021-08-01";
             $posCount = DB::table('dcard_rawdata')
