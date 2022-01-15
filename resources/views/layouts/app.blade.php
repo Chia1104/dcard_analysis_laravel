@@ -23,7 +23,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ secure_asset('/') }}">
+                <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'CGUDcardAnalysis') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -42,27 +42,27 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ secure_asset('/login') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ secure_asset('/register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
                         @else
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ secure_asset('/home') }}">{{ __('Home') }}</a>
+                                <a class="nav-link" href="{{ url('/home') }}">{{ __('Home') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ secure_asset('/post') }}">{{ __('Post') }}</a>
+                                <a class="nav-link" href="{{ url('/post') }}">{{ __('Post') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ secure_asset('/chart') }}">{{ __('Chart') }}</a>
+                                <a class="nav-link" href="{{ url('/chart') }}">{{ __('Chart') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ secure_asset('/chat') }}">{{ __('Chat') }}</a>
+                                <a class="nav-link" href="{{ url('/chat') }}">{{ __('Chat') }}</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -71,13 +71,13 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="#" >{{ __('Setting') }}</a>
-                                    <a class="dropdown-item" href="{{ secure_asset('/logout') }}"
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <form id="logout-form" action="{{ secure_asset('/logout') }}" method="POST" class="d-none">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
                                 </div>
