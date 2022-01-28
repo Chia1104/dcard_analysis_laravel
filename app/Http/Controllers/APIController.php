@@ -11,10 +11,10 @@ class APIController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param $liimit
+     * @param $limit
      * @return JsonResponse
      */
-    public function getAllDcard($liimit): JsonResponse
+    public function getAllDcard($limit): JsonResponse
     {
         try {
             $dcardAll = DB::table('dcard_rawdata')
@@ -24,7 +24,7 @@ class APIController extends Controller
                     , 'nlp_analysis.SA_Score', 'nlp_analysis.SA_Class', 'comparison.Level', 'comparison.KeywordLevel1',
                     'comparison.KeywordLevel2', 'comparison.KeywordLevel3')
                 ->orderByDesc('dcard_rawdata.Id')
-                ->limit($liimit)
+                ->limit($limit)
                 ->get();
         } catch (Exception $e) {
             $error['message'] = '404 Not Found!!' . $e;
@@ -45,11 +45,11 @@ class APIController extends Controller
      * Display a listing of the resource.
      *
      * @param $beforeId
-     * @param $liimit
+     * @param $limit
      * @return JsonResponse
      */
 
-    public function beforeId($beforeId, $liimit): JsonResponse {
+    public function beforeId($beforeId, $limit): JsonResponse {
         try {
             $dcardAll = DB::table('dcard_rawdata')
                 ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
@@ -59,7 +59,7 @@ class APIController extends Controller
                     'comparison.KeywordLevel2', 'comparison.KeywordLevel3')
                 ->orderByDesc('dcard_rawdata.Id')
                 ->where('dcard_rawdata.Id', '<', $beforeId)
-                ->limit($liimit)
+                ->limit($limit)
                 ->get();
         } catch (Exception $e) {
             $error['message'] = '404 Not Found!!' . $e;
