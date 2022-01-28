@@ -20,9 +20,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', 'UserController@login');
 Route::post('register', 'UserController@register');
-Route::get('/getAllDcard/{limit}', 'APIController@getAllDcard');
-Route::get('/getAllDcard/before/{beforeId}/{limit}', 'APIController@beforeId');
-Route::get('/getAllDcard/search/{content}', 'APIController@searchContent');
+Route::get('/dcard', 'APIController@getDcard');
+Route::get('/dcardBefore', 'APIController@beforeId');
+Route::get('/dcardSearch', 'APIController@searchContent');
 Route::get('/article/{id}', 'APIController@getArticle');
 Route::get('/date/{date1}/{date2}', 'APIController@getDateBetween');
 Route::get('/date/today', 'APIController@getToday');

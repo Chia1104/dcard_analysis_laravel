@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use mysql_xdevapi\Exception;
 
@@ -11,11 +12,13 @@ class APIController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param $limit
+     *
+     * @param Request $request
      * @return JsonResponse
      */
-    public function getAllDcard($limit): JsonResponse
+    public function getDcard(Request $request): JsonResponse
     {
+        $limit = $request -> limit == null ? 10 : $request -> limit;
         try {
             $dcardAll = DB::table('dcard_rawdata')
                 ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
@@ -44,12 +47,13 @@ class APIController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param $beforeId
-     * @param $limit
+     * @param Request $request
      * @return JsonResponse
      */
 
-    public function beforeId($beforeId, $limit): JsonResponse {
+    public function beforeId(Request $request): JsonResponse {
+        $limit = $request -> limit == null ? 10 : $request -> limit;
+        $beforeId = $request -> beforeId == null ? 237415791 : $request -> beforeId;
         try {
             $dcardAll = DB::table('dcard_rawdata')
                 ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
@@ -109,31 +113,38 @@ class APIController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param $content
+     * @param Request $request
      * @return JsonResponse
      */
-    public function searchContent($content): JsonResponse {
-        try {
-            $dcardAll = DB::table('dcard_rawdata')
-                ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
-                ->leftJoin('comparison', 'comparison.Id', '=', 'nlp_analysis.Id')
-                ->select('dcard_rawdata.Id', 'dcard_rawdata.Title', 'dcard_rawdata.CreatedAt', 'dcard_rawdata.Content'
-                    , 'nlp_analysis.SA_Score', 'nlp_analysis.SA_Class', 'comparison.Level', 'comparison.KeywordLevel1',
-                    'comparison.KeywordLevel2', 'comparison.KeywordLevel3')
-                ->orderByDesc('dcard_rawdata.Id')
-                ->where('dcard_rawdata.Content', 'LIKE', "%{$content}%")
-                ->orWhere('dcard_rawdata.Title', 'LIKE', "%{$content}%")
-                ->get();
-        } catch (Exception $e) {
-            $error['message'] = '404 Not Found!!' . $e;
+    public function searchContent(Request $request): JsonResponse {
+        $content = $request -> search;
+
+        if ($request -> search == null) {
+            $error['message'] = '404 Not Found!!';
             return response()->json($error, 404);
-        } finally {
-            if (!$dcardAll->isEmpty()){
-                return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
-                    JSON_UNESCAPED_UNICODE);
-            } else {
-                $error['message'] = '404 Not Found!!';
+        } else {
+            try {
+                $dcardAll = DB::table('dcard_rawdata')
+                    ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
+                    ->leftJoin('comparison', 'comparison.Id', '=', 'nlp_analysis.Id')
+                    ->select('dcard_rawdata.Id', 'dcard_rawdata.Title', 'dcard_rawdata.CreatedAt', 'dcard_rawdata.Content'
+                        , 'nlp_analysis.SA_Score', 'nlp_analysis.SA_Class', 'comparison.Level', 'comparison.KeywordLevel1',
+                        'comparison.KeywordLevel2', 'comparison.KeywordLevel3')
+                    ->orderByDesc('dcard_rawdata.Id')
+                    ->where('dcard_rawdata.Content', 'LIKE', "%{$content}%")
+                    ->orWhere('dcard_rawdata.Title', 'LIKE', "%{$content}%")
+                    ->get();
+            } catch (Exception $e) {
+                $error['message'] = '404 Not Found!!' . $e;
                 return response()->json($error, 404);
+            } finally {
+                if (!$dcardAll->isEmpty()){
+                    return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+                        JSON_UNESCAPED_UNICODE);
+                } else {
+                    $error['message'] = '404 Not Found!!';
+                    return response()->json($error, 404);
+                }
             }
         }
     }
