@@ -15,7 +15,6 @@ WORKDIR /app
 COPY composer.json ./
 COPY composer.lock ./
 RUN composer install --no-scripts
-RUN php artisan vendor:publish --tag=passport-config
 COPY . .
 
 CMD php artisan serve --host=0.0.0.0 --port 80
