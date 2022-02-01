@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Validator;
+use Lcobucci\JWT\Validation\Validator;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
