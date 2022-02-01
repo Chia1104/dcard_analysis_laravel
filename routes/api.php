@@ -18,8 +18,8 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::post('login', 'UserController@login');
-Route::post('register', 'UserController@register');
+Route::post('/login', 'UserController@login');
+Route::post('/register', 'UserController@register');
 Route::get('/dcard', 'APIController@getDcard');
 Route::get('/dcardBefore', 'APIController@beforeId');
 Route::get('/dcardSearch', 'APIController@searchContent');
@@ -34,5 +34,5 @@ Route::get('/GBChartData/{date1}/{date2}', 'APIController@getGBChartDateBetween'
 Route::get('/LineChart12Data', 'APIController@getLineChart12Month');
 
 Route::group(['middleware' => 'auth:api'], function(){
-	Route::post('details', 'UserController@details');
+	Route::post('/details', 'UserController@details');
 });
