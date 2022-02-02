@@ -1,0 +1,4 @@
+.git
+tests
+vendor
+*/node_modules
