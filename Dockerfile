@@ -3,7 +3,6 @@ FROM composer:2.0 as vendor
 
 WORKDIR /app
 
-COPY database database
 COPY composer.json composer.lock  ./
 
 # 下載依賴套件並更新
