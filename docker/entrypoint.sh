@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sed -i "s,LISTEN_PORT,$PORT,g" /etc/nginx/nginx.conf
+sed -i "s,LISTEN_PORT,$PORT,g" /etc/nginx/conf.d/default.conf
 
 php-fpm -D
 
