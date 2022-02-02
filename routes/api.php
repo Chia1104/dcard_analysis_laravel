@@ -32,6 +32,7 @@ Route::get('/GBChart12Data', 'APIController@getGBChart12Month');
 Route::get('/GBChart4Data', 'APIController@getGBChart4Month');
 Route::get('/GBChartData/{date1}/{date2}', 'APIController@getGBChartDateBetween');
 Route::get('/LineChart12Data', 'APIController@getLineChart12Month');
+Route::get('/testData', 'DcardPostController@index');
 
 Route::group(['middleware' => 'auth:api'], function(){
 	Route::post('/details', 'UserController@details');
