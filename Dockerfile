@@ -1,10 +1,10 @@
-FROM composer:2.0 as vendor
-
-WORKDIR /app
-
-COPY composer.json composer.lock  ./
-
-RUN composer install --no-scripts
+#FROM composer:2.0 as vendor
+#
+#WORKDIR /app
+#
+#COPY composer.json composer.lock  ./
+#
+#RUN composer install --no-scripts
 
 FROM node:lts-alpine as node
 
@@ -27,7 +27,11 @@ WORKDIR /var/www
 COPY . .
 RUN docker-php-ext-install pdo_mysql
 
-COPY --from=vendor /app/vendor vendor
+RUN sh -c "wget http://getcomposer.org/composer.phar && chmod a+x composer.phar && mv composer.phar /usr/local/bin/composer"
+COPY composer.json composer.lock  ./
+RUN composer install --no-scripts
+RUN php artisan passport:keys --force
+
 COPY --from=node /app/public public
 
 RUN chown -R www-data: /var/www
