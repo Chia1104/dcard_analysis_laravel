@@ -12,8 +12,8 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-require('./components/Example');
-require('./components/Home');
-require('./components/Post');
-require('./components/Chart');
-require('./components/Chat');
+require('./pages/Example');
+require('./pages/Home');
+require('./pages/Post');
+require('./pages/Chart');
+require('./pages/Chat');

@@ -6,7 +6,6 @@
     "license": "MIT",
     "require": {
         "php": "^7.4|^8.0",
-        "ext-json": "*",
         "fabpot/php-cs-fixer": "^3.3",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -17,8 +16,7 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
         "nesbot/carbon": "^2.54",
-        "spatie/laravel-query-builder": "^4.0",
-        "ext-mysql_xdevapi": "*"
+        "spatie/laravel-query-builder": "^4.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
