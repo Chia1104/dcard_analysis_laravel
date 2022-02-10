@@ -25,6 +25,9 @@ class APIController extends Controller
     public function getDcard(Request $request): JsonResponse
     {
         $limit = $request -> limit == null ? 10 : $request -> limit;
+        if ($limit <= 0) {
+            $limit = 1;
+        }
         try {
             $dcardAll = DB::table('dcard_rawdata')
                 ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
@@ -35,19 +38,19 @@ class APIController extends Controller
                 ->orderByDesc('dcard_rawdata.Id')
                 ->limit($limit)
                 ->get();
-        } catch (Exception $e) {
-            $error['message'] = '404 Not Found!!' . $e;
-            return response()->json($error, 404);
-        } finally {
+
             if (!$dcardAll->isEmpty()){
                 return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
                     JSON_UNESCAPED_UNICODE);
             } else {
-                $error['message'] = '404 Not Found!!';
+                $error['message'] = '404 Not Found';
                 return response()->json($error, 404);
             }
-        }
 
+        } catch (Exception $e) {
+            $error['message'] = '404 Not Found' . $e;
+            return response()->json($error, 404);
+        }
     }
 
     /**
@@ -60,6 +63,9 @@ class APIController extends Controller
     public function beforeId(Request $request): JsonResponse {
         $limit = $request -> limit == null ? 10 : $request -> limit;
         $beforeId = $request -> beforeId == null ? 237415791 : $request -> beforeId;
+        if ($limit <= 0) {
+            $limit = 1;
+        }
         try {
             $dcardAll = DB::table('dcard_rawdata')
                 ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
@@ -71,17 +77,16 @@ class APIController extends Controller
                 ->where('dcard_rawdata.Id', '<', $beforeId)
                 ->limit($limit)
                 ->get();
-        } catch (Exception $e) {
-            $error['message'] = '404 Not Found!!' . $e;
-            return response()->json($error, 404);
-        } finally {
             if (!$dcardAll->isEmpty()){
                 return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
                     JSON_UNESCAPED_UNICODE);
             } else {
-                $error['message'] = '404 Not Found!!';
+                $error['message'] = '404 Not Found';
                 return response()->json($error, 404);
             }
+        } catch (Exception $e) {
+            $error['message'] = '404 Not Found' . $e;
+            return response()->json($error, 404);
         }
     }
 
@@ -102,17 +107,16 @@ class APIController extends Controller
                     'comparison.KeywordLevel2', 'comparison.KeywordLevel3')
                 ->whereIn('dcard_rawdata.Id', [$id])
                 ->get();
-        } catch (Exception $e) {
-            $error['message'] = '404 Not Found!!' . $e;
-            return response()->json($error, 404);
-        } finally {
             if (!$dcardAll->isEmpty()){
                 return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
                     JSON_UNESCAPED_UNICODE);
             } else {
-                $error['message'] = '404 Not Found!!';
+                $error['message'] = '404 Not Found';
                 return response()->json($error, 404);
             }
+        } catch (Exception $e) {
+            $error['message'] = '404 Not Found' . $e;
+            return response()->json($error, 404);
         }
     }
 
@@ -140,17 +144,16 @@ class APIController extends Controller
                     ->where('dcard_rawdata.Content', 'LIKE', "%{$content}%")
                     ->orWhere('dcard_rawdata.Title', 'LIKE', "%{$content}%")
                     ->get();
-            } catch (Exception $e) {
-                $error['message'] = '404 Not Found!!' . $e;
-                return response()->json($error, 404);
-            } finally {
                 if (!$dcardAll->isEmpty()){
                     return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
                         JSON_UNESCAPED_UNICODE);
                 } else {
-                    $error['message'] = '404 Not Found!!';
+                    $error['message'] = '404 Not Found';
                     return response()->json($error, 404);
                 }
+            } catch (Exception $e) {
+                $error['message'] = '404 Not Found' . $e;
+                return response()->json($error, 404);
             }
         }
     }
@@ -174,17 +177,16 @@ class APIController extends Controller
                 ->whereBetween('dcard_rawdata.CreatedAt', [$date1, $date2])
                 ->orderByDesc('dcard_rawdata.Id')
                 ->get();
-        } catch (Exception $e) {
-            $error['message'] = '404 Not Found!!' . $e;
-            return response()->json($error, 404);
-        } finally {
             if (!$dcardAll->isEmpty()){
                 return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
                     JSON_UNESCAPED_UNICODE);
             } else {
-                $error['message'] = '404 Not Found!!';
+                $error['message'] = '404 Not Found';
                 return response()->json($error, 404);
             }
+        } catch (Exception $e) {
+            $error['message'] = '404 Not Found' . $e;
+            return response()->json($error, 404);
         }
     }
 
@@ -207,17 +209,16 @@ class APIController extends Controller
                 ->whereDate('dcard_rawdata.CreatedAt', $today)
                 ->orderByDesc('dcard_rawdata.Id')
                 ->get();
-        } catch (Exception $e) {
-            $error['message'] = '404 Not Found!!' . $e;
-            return response()->json($error, 404);
-        } finally {
             if (!$dcardAll->isEmpty()){
                 return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
                     JSON_UNESCAPED_UNICODE);
             } else {
-                $error['message'] = '404 Not Found!!';
+                $error['message'] = '404 Not Found';
                 return response()->json($error, 404);
             }
+        } catch (Exception $e) {
+            $error['message'] = '404 Not Found' . $e;
+            return response()->json($error, 404);
         }
     }
 
@@ -243,17 +244,16 @@ class APIController extends Controller
                 ->whereBetween('dcard_rawdata.CreatedAt', [$week_start, $week_end])
                 ->orderByDesc('dcard_rawdata.Id')
                 ->get();
-        } catch (Exception $e) {
-            $error['message'] = '404 Not Found!!' . $e;
-            return response()->json($error, 404);
-        } finally {
             if (!$dcardAll->isEmpty()){
                 return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
                     JSON_UNESCAPED_UNICODE);
             } else {
-                $error['message'] = '404 Not Found!!';
+                $error['message'] = '404 Not Found';
                 return response()->json($error, 404);
             }
+        } catch (Exception $e) {
+            $error['message'] = '404 Not Found' . $e;
+            return response()->json($error, 404);
         }
     }
 
@@ -278,17 +278,16 @@ class APIController extends Controller
                 ->whereBetween('dcard_rawdata.CreatedAt', [$m0d1, $m0d31])
                 ->orderByDesc('dcard_rawdata.Id')
                 ->get();
-        } catch (Exception $e) {
-            $error['message'] = '404 Not Found!!' . $e;
-            return response()->json($error, 404);
-        } finally {
             if (!$dcardAll->isEmpty()){
                 return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
                     JSON_UNESCAPED_UNICODE);
             } else {
-                $error['message'] = '404 Not Found!!';
+                $error['message'] = '404 Not Found';
                 return response()->json($error, 404);
             }
+        } catch (Exception $e) {
+            $error['message'] = '404 Not Found' . $e;
+            return response()->json($error, 404);
         }
     }
 
@@ -330,17 +329,16 @@ class APIController extends Controller
                 ->get();
             $negCount = collect($negCount);
             $merged = $posCount->merge($neuCount)->merge($negCount);
-        } catch (Exception $e) {
-            $error['message'] = '404 Not Found!!' . $e;
-            return response()->json($error, 404);
-        } finally {
             if (!$merged->isEmpty()){
                 return response()->json($merged, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
                     JSON_UNESCAPED_UNICODE);
             } else {
-                $error['message'] = '404 Not Found!!';
+                $error['message'] = '404 Not Found';
                 return response()->json($error, 404);
             }
+        } catch (Exception $e) {
+            $error['message'] = '404 Not Found' . $e;
+            return response()->json($error, 404);
         }
     }
 
@@ -384,17 +382,16 @@ class APIController extends Controller
                 ->get();
             $negCount = collect($negCount);
             $merged = $posCount->merge($neuCount)->merge($negCount);
-        } catch (Exception $e) {
-            $error['message'] = '404 Not Found!!' . $e;
-            return response()->json($error, 404);
-        } finally {
             if (!$merged->isEmpty()){
                 return response()->json($merged, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
                     JSON_UNESCAPED_UNICODE);
             } else {
-                $error['message'] = '404 Not Found!!';
+                $error['message'] = '404 Not Found';
                 return response()->json($error, 404);
             }
+        } catch (Exception $e) {
+            $error['message'] = '404 Not Found' . $e;
+            return response()->json($error, 404);
         }
     }
 
@@ -438,10 +435,6 @@ class APIController extends Controller
                 ->get();
             $negCount = collect($negCount);
             $merged = $posCount->merge($neuCount)->merge($negCount);
-        } catch (Exception $e) {
-            $error['message'] = '404 Not Found!!' . $e;
-            return response()->json($error, 404);
-        } finally {
             if (!$merged->isEmpty()){
                 return response()->json($merged, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
                     JSON_UNESCAPED_UNICODE);
@@ -449,6 +442,9 @@ class APIController extends Controller
                 $error['message'] = '404 Not Found!!';
                 return response()->json($error, 404);
             }
+        } catch (Exception $e) {
+            $error['message'] = '404 Not Found!!' . $e;
+            return response()->json($error, 404);
         }
     }
 
@@ -471,10 +467,6 @@ class APIController extends Controller
                 ->orderByDesc('newDate')
                 ->whereBetween('dcard_rawdata.CreatedAt', [$m11d1, $m0d31])
                 ->get();
-        } catch (Exception $e) {
-            $error['message'] = '404 Not Found!!' . $e;
-            return response()->json($error, 404);
-        } finally {
             if (!$lineChartData->isEmpty()){
                 return response()->json($lineChartData, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
                     JSON_UNESCAPED_UNICODE);
@@ -482,6 +474,9 @@ class APIController extends Controller
                 $error['message'] = '404 Not Found!!';
                 return response()->json($error, 404);
             }
+        } catch (Exception $e) {
+            $error['message'] = '404 Not Found!!' . $e;
+            return response()->json($error, 404);
         }
     }
 }

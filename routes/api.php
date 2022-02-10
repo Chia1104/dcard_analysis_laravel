@@ -14,12 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
+// Auth
 Route::post('/login', 'UserController@login');
 Route::post('/register', 'UserController@register');
+Route::group(['middleware' => 'auth:api'], function(){
+    Route::post('/details', 'UserController@details');
+});
+
+//API V1
 Route::get('/dcard', 'APIController@getDcard');
 Route::get('/dcardBefore', 'APIController@beforeId');
 Route::get('/dcardSearch', 'APIController@searchContent');
@@ -32,8 +34,6 @@ Route::get('/GBChart12Data', 'APIController@getGBChart12Month');
 Route::get('/GBChart4Data', 'APIController@getGBChart4Month');
 Route::get('/GBChartData/{date1}/{date2}', 'APIController@getGBChartDateBetween');
 Route::get('/LineChart12Data', 'APIController@getLineChart12Month');
-Route::get('/testData', 'DcardPostController@index');
 
-Route::group(['middleware' => 'auth:api'], function(){
-	Route::post('/details', 'UserController@details');
-});
+// API V2
+Route::get('/v2/testData', 'APIV2Controller@testData');
