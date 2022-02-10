@@ -36,7 +36,7 @@ COPY --from=node /app/public public
 
 RUN chown -R www-data: /var/www
 
-CMD sh /var/www/docker/startup.sh
+CMD ["sh", "/var/www/docker/startup.sh"]
 
 #FROM php:8.0-fpm
 #WORKDIR /var/www

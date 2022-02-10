@@ -24,6 +24,7 @@ class UserController extends Controller
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
             $user = Auth::user();
             $success['message'] = 'success';
+            $success['user_id'] = $user->id;
             $success['token'] =  $user->createToken($randomstr)->accessToken;
             $success['name'] =  $user->name;
             return response()->json($success, $this->successStatus);
@@ -45,9 +46,9 @@ class UserController extends Controller
     {
         $randomstr = Str::random(30);
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
             'c_password' => 'required|same:password',
         ]);
 
@@ -61,6 +62,7 @@ class UserController extends Controller
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
         $success['message'] = 'success';
+        $success['user_id'] = $user->id;
         $success['token'] =  $user->createToken($randomstr)->accessToken;
         $success['name'] =  $user->name;
 
