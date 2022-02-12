@@ -29,9 +29,14 @@ class APIV2Controller extends Controller
         if ($limit <= 0) {
             $limit = 1;
         }
-        $dcards = Dcard::main()
-            ->limit($limit)
-            ->get();
+        $search = $request -> search;
+        if($request->has('search')){
+            $dcards = DcardRawData::search($search)
+                ->get();
+        }else{
+            $dcards = DcardRawData::paginate(7);
+        }
+
         return response()->json($dcards, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
             JSON_UNESCAPED_UNICODE);
 
