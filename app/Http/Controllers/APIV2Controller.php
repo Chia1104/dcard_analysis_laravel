@@ -26,9 +26,11 @@ class APIV2Controller extends Controller
     public function testData(Request $request): JsonResponse
     {
         $limit = $request -> limit == null ? 10 : $request -> limit;
-        $dcards = Dcard::find(228746468)->comparison
-//            ->limit($limit)
-//            ->orderByDesc('Id')
+        if ($limit <= 0) {
+            $limit = 1;
+        }
+        $dcards = Dcard::main()
+            ->limit($limit)
             ->get();
         return response()->json($dcards, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
             JSON_UNESCAPED_UNICODE);

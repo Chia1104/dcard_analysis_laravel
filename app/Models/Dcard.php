@@ -4,24 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Dcard extends Model
 {
-    protected $table = 'dcard_rawdata';
-    protected $primaryKey = 'Id';
-    protected $keyType = 'string';
     use HasFactory;
 
-    public function scopeMain($query)
+    public function scopeMain()
     {
-        return $query->select('Id', 'Title', 'CreatedAt', 'Content');
-    }
-
-    public function nlp() {
-        return $this->belongsTo('App\Models\Nlp', 'Id');
-    }
-
-    public function comparison() {
-        return $this->hasOne('App\Models\Comparison', 'Id');
+        return DB::table('dcard_rawdata')
+            ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
+            ->leftJoin('comparison', 'comparison.Id', '=', 'nlp_analysis.Id')
+            ->select('dcard_rawdata.Id', 'dcard_rawdata.Title', 'dcard_rawdata.CreatedAt', 'dcard_rawdata.Content'
+                , 'nlp_analysis.SA_Score', 'nlp_analysis.SA_Class', 'comparison.Level', 'comparison.KeywordLevel1',
+                'comparison.KeywordLevel2', 'comparison.KeywordLevel3')
+            ->orderByDesc('dcard_rawdata.Id');
     }
 }
