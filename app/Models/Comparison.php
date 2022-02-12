@@ -16,4 +16,9 @@ class Comparison extends Model
     {
         return $query->select('Id', 'CreatedAt', 'Level', 'KeywordLevel1', 'KeywordLevel2', 'KeywordLevel3');
     }
+
+    public function dcardRawData(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany('App\Models\DcardRawData', 'Id', 'Id');
+    }
 }

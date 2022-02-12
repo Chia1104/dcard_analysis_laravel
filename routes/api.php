@@ -36,4 +36,9 @@ Route::get('/GBChartData/{date1}/{date2}', 'APIController@getGBChartDateBetween'
 Route::get('/LineChart12Data', 'APIController@getLineChart12Month');
 
 // API V2
-Route::get('/v2/testData', 'APIV2Controller@testData');
+Route::get('/v2/dcard', 'APIV2Controller@getDcards');
+Route::get('/v2/searchDcard', 'APIV2Controller@searchDcards');
+Route::get('v2/beforeDcard', 'APIV2Controller@beforeId');
+Route::get('v2/dcard/{id}', 'APIV2Controller@getDcardById');
+Route::get('v2/date/{date1}/{date2}', 'APIV2Controller@getDateBetween');
+Route::get('v2/date', 'APIV2Controller@getDateDcards');
