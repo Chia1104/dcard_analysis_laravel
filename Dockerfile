@@ -40,8 +40,7 @@ COPY docker/Passport/AuthCode.php vendor/laravel/passport/src/AuthCode.php
 COPY docker/Passport/Client.php vendor/laravel/passport/src/Client.php
 COPY docker/Passport/PersonalAccessClient.php vendor/laravel/passport/src/PersonalAccessClient.php
 COPY docker/Passport/Token.php vendor/laravel/passport/src/Token.php
-RUN php artisan migrate --force
-RUN php artisan passport:install --force
+RUN php artisan passport:keys --force
 
 COPY --from=node /app/public public
 
