@@ -8,13 +8,14 @@ use App\Models\Nlp;
 use App\Models\Comparison;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class APIV2Controller extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-    }
+//    public function __construct()
+//    {
+//        $this->middleware('auth:api');
+//    }
 
     /**
      * Display a listing of the resource.
@@ -31,16 +32,11 @@ class APIV2Controller extends Controller
                 $limit = 1;
             }
 
-            $dcards = DcardRawData::with(['nlp','comparison'])
+            $dcards = Dcard::with(['nlp'])
                 ->main()
                 ->orderByDesc('Id')
                 ->limit($limit)
                 ->get();
-
-            if ($dcards->isEmpty()) {
-                $error['message'] = '404 Not Found';
-                return response()->json($error, 404);
-            }
 
             return response()->json($dcards, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
                 JSON_UNESCAPED_UNICODE);
@@ -69,7 +65,7 @@ class APIV2Controller extends Controller
                 return response()->json($error, 404);
             }
 
-            $dcards = DcardRawData::with(['nlp','comparison'])
+            $dcards = Dcard::with(['nlp'])
                 ->main()
                 ->orderByDesc('Id')
                 ->where('Id', '<', $beforeId)
@@ -93,9 +89,9 @@ class APIV2Controller extends Controller
     public function searchDcards(Request $request): JsonResponse
     {
         try {
-            $search = $request -> search;
             if($request->has('search')){
-                $dcards = DcardRawData::search($search)
+                $search = $request -> search;
+                $dcards = Dcard::search($search)
                     ->get();
 
                 if ($dcards->isEmpty()) {
@@ -125,7 +121,7 @@ class APIV2Controller extends Controller
     public function getDcardById($id): JsonResponse
     {
         try {
-            $dcards = DcardRawData::with(['nlp','comparison'])
+            $dcards = Dcard::with(['nlp'])
                 ->main()
                 ->whereIn('Id', [$id])
                 ->get();
@@ -153,7 +149,7 @@ class APIV2Controller extends Controller
     public function getDateBetween($date1, $date2): JsonResponse
     {
         try {
-            $dcards = DcardRawData::with(['nlp','comparison'])
+            $dcards = Dcard::with(['nlp'])
                 ->main()
                 ->whereBetween('CreatedAt', [$date1, $date2])
                 ->get();
@@ -185,11 +181,14 @@ class APIV2Controller extends Controller
         try {
             switch ($type) {
                 case 'today':
-//                $today = date("Y-m-d");
+//                    $today = date("Y-m-d");
+//                    $tomorrow = Carbon::now()->addDay();
                     $today = "2021-11-09";
-                    $dcards = DcardRawData::with(['nlp','comparison'])
+                    $tomorrow = "2021-11-10";
+                    $dcards = Dcard::with(['nlp'])
                         ->main()
-                        ->whereDate('CreatedAt', $today)
+                        ->whereBetween('CreatedAt', [$today, $tomorrow])
+//                        ->whereDate('CreatedAt', $today)
                         ->get();
                     if ($dcards->isEmpty()) {
                         $error['message'] = '404 Not Found';
@@ -199,12 +198,12 @@ class APIV2Controller extends Controller
                     return response()->json($dcards, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
                         JSON_UNESCAPED_UNICODE);
                 case 'week':
-//                $day = date('w');
-//                $week_start = date('Y-m-d', strtotime('-'.$day.' days'));
-//                $week_end = date('Y-m-d', strtotime('+'.(6-$day).' days'));
+//                    $day = date('w');
+//                    $week_start = date('Y-m-d', strtotime('-'.$day.' days'));
+//                    $week_end = date('Y-m-d', strtotime('+'.(6-$day).' days'));
                     $week_start = "2021-11-07";
                     $week_end = "2021-11-13";
-                    $dcards = DcardRawData::with(['nlp','comparison'])
+                    $dcards = Dcard::with(['nlp'])
                         ->main()
                         ->whereBetween('CreatedAt', [$week_start, $week_end])
                         ->get();
@@ -216,11 +215,11 @@ class APIV2Controller extends Controller
                     return response()->json($dcards, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
                         JSON_UNESCAPED_UNICODE);
                 case 'month':
-//                $m0d1 = date("Y-m-d", strtotime("first day of 0 month"));
-//                $m0d31 = date("Y-m-d", strtotime("last day of 0 month"));
+//                    $m0d1 = date("Y-m-d", strtotime("first day of 0 month"));
+//                    $m0d31 = date("Y-m-d", strtotime("last day of 0 month"));
                     $m0d1 = "2021-11-01";
                     $m0d31 = "2021-11-30";
-                    $dcards = DcardRawData::with(['nlp','comparison'])
+                    $dcards = Dcard::with(['nlp'])
                         ->main()
                         ->whereBetween('CreatedAt', [$m0d1, $m0d31])
                         ->get();
@@ -233,7 +232,7 @@ class APIV2Controller extends Controller
                         JSON_UNESCAPED_UNICODE);
 
                 default:
-                    $dcards = DcardRawData::with(['nlp','comparison'])
+                    $dcards = Dcard::with(['nlp'])
                         ->main()
                         ->whereDate('CreatedAt', $type)
                         ->get();

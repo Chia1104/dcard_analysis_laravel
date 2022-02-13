@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model;
 
 class Comparison extends Model
 {
-    protected $table = 'comparison';
+    protected $connection = 'mongodb';
+    protected $collection = 'comparison_datas';
     protected $primaryKey = 'Id';
     protected $keyType = 'string';
     use HasFactory;

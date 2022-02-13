@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model;
 
 class Nlp extends Model
 {
-    protected $table = 'nlp_analysis';
+    protected $connection = 'mongodb';
+    protected $collection = 'nlp_datas';
     protected $primaryKey = 'Id';
     protected $keyType = 'string';
     use HasFactory;

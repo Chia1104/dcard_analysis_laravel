@@ -4,21 +4,38 @@ namespace App\Models;
 
 use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+use Jenssegers\Mongodb\Eloquent\Model;
 
 class Dcard extends Model
 {
+    protected $connection = 'mongodb';
+    protected $collection = 'dcards';
+    protected $primaryKey = 'Id';
+    protected $keyType = 'string';
     use HasFactory, Searchable;
 
-    public function scopeMain()
+    public function scopeMain($query)
     {
-        return DB::table('dcard_rawdata')
-            ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
-            ->leftJoin('comparison', 'comparison.Id', '=', 'nlp_analysis.Id')
-            ->select('dcard_rawdata.Id', 'dcard_rawdata.Title', 'dcard_rawdata.CreatedAt', 'dcard_rawdata.Content'
-                , 'nlp_analysis.SA_Score', 'nlp_analysis.SA_Class', 'comparison.Level', 'comparison.KeywordLevel1',
-                'comparison.KeywordLevel2', 'comparison.KeywordLevel3')
-            ->orderByDesc('dcard_rawdata.Id');
+        return $query->select('Id', 'Title', 'CreatedAt', 'Content', 'Topics', 'Gender')->orderByDesc('Id');
+    }
+
+    public function nlp(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo('App\Models\Nlp', 'Id', 'Id')
+            ->select('Id', 'SA_Score', 'SA_Class');
+    }
+
+    public function comparison(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo('App\Models\Comparison', 'Id', 'Id')
+            ->select('Id', 'Level', 'KeywordLevel1', 'KeywordLevel2', 'KeywordLevel3');
+    }
+
+    /**
+     * Get the index name for the model.
+     */
+    public function searchableAs(): string
+    {
+        return 'dcards_index';
     }
 }
