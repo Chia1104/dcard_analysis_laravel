@@ -3,19 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dcard;
-use App\Models\DcardRawData;
 use App\Models\Nlp;
 use App\Models\Comparison;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 
 class APIV2Controller extends Controller
 {
-//    public function __construct()
-//    {
-//        $this->middleware('auth:api');
-//    }
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
 
     /**
      * Display a listing of the resource.
