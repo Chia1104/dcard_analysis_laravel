@@ -17,11 +17,13 @@ RUN npm install \
 
 FROM php:8.0-fpm-alpine
 
-RUN apk --update add --virtual build-dependencies build-base openssl-dev autoconf nginx wget\
+RUN apk --update add --virtual build-dependencies build-base openssl-dev autoconf \
   && pecl install mongodb \
   && docker-php-ext-enable mongodb \
   && apk del build-dependencies build-base openssl-dev autoconf \
   && rm -rf /var/cache/apk/*
+
+RUN apk add --no-cache nginx wget
 
 RUN mkdir -p /run/nginx
 
@@ -33,6 +35,11 @@ COPY . .
 RUN sh -c "wget http://getcomposer.org/composer.phar && chmod a+x composer.phar && mv composer.phar /usr/local/bin/composer"
 COPY composer.json composer.lock  ./
 RUN composer install --no-scripts
+
+COPY docker/Passport/AuthCode.php /app/vender/laravel/passport/src/
+COPY docker/Passport/Client.php /app/vender/laravel/passport/src/
+COPY docker/Passport/PersonalAccessClient.php /app/vender/laravel/passport/src/
+COPY docker/Passport/Token.php /app/vender/laravel/passport/src/
 RUN php artisan passport:keys --force
 
 COPY --from=node /app/public public

@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Models\Passport;
+namespace Laravel\Passport;
 
 use Jenssegers\Mongodb\Eloquent\Model;
-use Laravel\Passport\Passport;
-use Laravel\Passport\PersonalAccessClient as PassportPersonalAccessClient;
 
 class PersonalAccessClient extends Model
 {
@@ -29,7 +27,7 @@ class PersonalAccessClient extends Model
      */
     public function client()
     {
-        return $this->belongsTo('App\Models\Client');
+        return $this->belongsTo(Passport::clientModel());
     }
 
     /**

@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Models\Passport;
+namespace Laravel\Passport;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
 use Illuminate\Support\Str;
 use Laravel\Passport\Database\Factories\ClientFactory;
-use Laravel\Passport\Passport;
-use Laravel\Passport\Client as PassportClient;
 
 class Client extends Model
 {
@@ -92,7 +90,7 @@ class Client extends Model
      */
     public function authCodes()
     {
-        return $this->hasMany('App\Models\AuthCode', 'client_id');
+        return $this->hasMany(Passport::authCodeModel(), 'client_id');
     }
 
     /**
@@ -102,7 +100,7 @@ class Client extends Model
      */
     public function tokens()
     {
-        return $this->hasMany('App\Models\Token', 'client_id');
+        return $this->hasMany(Passport::tokenModel(), 'client_id');
     }
 
     /**

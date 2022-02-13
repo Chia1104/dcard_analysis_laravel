@@ -1,13 +1,8 @@
 <?php
 
-namespace App\Models\Passport;
+namespace Laravel\Passport;
 
-use App\Models\Passport\AuthCode;
-use App\Models\Passport\Client;
-use App\Models\Passport\PersonalAccessClient;
 use Jenssegers\Mongodb\Eloquent\Model;
-use Laravel\Passport\Passport;
-use Laravel\Passport\Token as PassportToken;
 
 class Token extends Model
 {
@@ -72,7 +67,7 @@ class Token extends Model
      */
     public function client()
     {
-        return $this->belongsTo('App\Models\Client');
+        return $this->belongsTo(Passport::clientModel());
     }
 
     /**
