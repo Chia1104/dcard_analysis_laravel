@@ -36,10 +36,10 @@ RUN sh -c "wget http://getcomposer.org/composer.phar && chmod a+x composer.phar 
 COPY composer.json composer.lock  ./
 RUN composer install --no-scripts
 
-COPY docker/Passport/AuthCode.php /app/vender/laravel/passport/src/
-COPY docker/Passport/Client.php /app/vender/laravel/passport/src/
-COPY docker/Passport/PersonalAccessClient.php /app/vender/laravel/passport/src/
-COPY docker/Passport/Token.php /app/vender/laravel/passport/src/
+COPY docker/Passport/AuthCode.php /var/www/vender/laravel/passport/src/
+COPY docker/Passport/Client.php /var/www/vender/laravel/passport/src/
+COPY docker/Passport/PersonalAccessClient.php /var/www/vender/laravel/passport/src/
+COPY docker/Passport/Token.php /var/www/vender/laravel/passport/src/
 RUN php artisan passport:keys --force
 
 COPY --from=node /app/public public
