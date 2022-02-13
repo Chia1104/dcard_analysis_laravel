@@ -8,6 +8,7 @@ use App\Models\Comparison;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class APIV2Controller extends Controller
 {
@@ -33,7 +34,6 @@ class APIV2Controller extends Controller
 
             $dcards = Dcard::with(['nlp'])
                 ->main()
-                ->orderByDesc('Id')
                 ->limit($limit)
                 ->get();
 
@@ -66,7 +66,6 @@ class APIV2Controller extends Controller
 
             $dcards = Dcard::with(['nlp'])
                 ->main()
-                ->orderByDesc('Id')
                 ->where('Id', '<', $beforeId)
                 ->limit($limit)
                 ->get();
@@ -246,6 +245,65 @@ class APIV2Controller extends Controller
 
         } catch (\Exception $e) {
             $error['message'] = '404 Not Found';
+            return response()->json($error, 404);
+        }
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getPieChartDatas(Request $request): JsonResponse
+    {
+        try {
+            $date1 = $request -> date1;
+            $date2 = $request -> date2;
+
+            $saclass = array(0 => 'Positive', 1 => 'Neutral', 2 => 'Negative');
+            $pdatas = array();
+
+            for ($i = 0; $i < count($saclass); $i++) {
+                $count = Nlp::main()
+                    ->where('SA_Class', $saclass[$i])
+                    ->whereBetween('CreatedAt', [$date1, $date2])
+                    ->count();
+                $pdatas[] = array($saclass[$i] => $count);
+            }
+
+            $result['total'] = $pdatas;
+
+            return response()->json($result, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+                JSON_UNESCAPED_UNICODE);
+        } catch (\Exception $e) {
+            $error['message'] = '404 Not Found';
+            return response()->json($error, 404);
+        }
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getLineChartDatas(Request $request): JsonResponse
+    {
+        try {
+            $date1 = $request -> date1;
+            $date2 = $request -> date2;
+            $m0d31 = "2021-11-30";
+            $m11d1 = "2020-12-01";
+            $avg = Nlp::main()
+                ->whereBetween('CreatedAt', [$date1, $date2])
+                ->avg('SA_Score');
+            return response()->json($avg, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+                JSON_UNESCAPED_UNICODE);
+        } catch (\Exception $e) {
+            $error['message'] = '404 Not Found' . $e;
             return response()->json($error, 404);
         }
     }

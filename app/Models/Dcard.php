@@ -16,7 +16,7 @@ class Dcard extends Model
 
     public function scopeMain($query)
     {
-        return $query->select('Id', 'Title', 'CreatedAt', 'Content', 'Topics', 'Gender')->orderByDesc('Id');
+        return $query->select('Id', 'Title', 'CreatedAt', 'Content', 'Topics', 'Tags', 'Gender')->orderByDesc('Id');
     }
 
     public function nlp(): \Illuminate\Database\Eloquent\Relations\BelongsTo

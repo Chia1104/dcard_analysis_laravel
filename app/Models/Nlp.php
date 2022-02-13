@@ -15,7 +15,7 @@ class Nlp extends Model
 
     public function scopeMain($query)
     {
-        return $query->select('Id', 'CreatedAt', 'SA_Score', 'SA_Class');
+        return $query->select('Id', 'CreatedAt', 'SA_Score', 'SA_Class')->orderByDesc('Id');
     }
 
     public function dcardRawData(): \Illuminate\Database\Eloquent\Relations\HasMany

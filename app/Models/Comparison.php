@@ -15,7 +15,7 @@ class Comparison extends Model
 
     public function scopeMain($query)
     {
-        return $query->select('Id', 'CreatedAt', 'Level', 'KeywordLevel1', 'KeywordLevel2', 'KeywordLevel3');
+        return $query->select('Id', 'CreatedAt', 'Level', 'KeywordLevel1', 'KeywordLevel2', 'KeywordLevel3')->orderByDesc('Id');
     }
 
     public function dcardRawData(): \Illuminate\Database\Eloquent\Relations\HasMany
