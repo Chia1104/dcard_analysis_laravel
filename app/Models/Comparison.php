@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Jenssegers\Mongodb\Eloquent\Model;
 
 class Comparison extends Model
@@ -18,8 +19,19 @@ class Comparison extends Model
         return $query->select('Id', 'CreatedAt', 'Level', 'KeywordLevel1', 'KeywordLevel2', 'KeywordLevel3')->orderByDesc('Id');
     }
 
-    public function dcardRawData(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public static function boot()
     {
-        return $this->hasMany('App\Models\DcardRawData', 'Id', 'Id');
+        parent::boot();
+
+        static::saved(function ($model) {
+            $model->articles->filter(function ($item) {
+                return $item->shouldBeSearchable();
+            })->searchable();
+        });
+    }
+
+    public function dcard(): HasMany
+    {
+        return $this->hasMany(Dcard::class, 'Id', 'Id');
     }
 }

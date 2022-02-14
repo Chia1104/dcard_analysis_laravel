@@ -32,7 +32,7 @@ class APIV2Controller extends Controller
                 $limit = 1;
             }
 
-            $dcards = Dcard::with(['nlp'])
+            $dcards = Dcard::with(['nlp', 'comparison'])
                 ->main()
                 ->limit($limit)
                 ->get();
@@ -64,7 +64,7 @@ class APIV2Controller extends Controller
                 return response()->json($error, 404);
             }
 
-            $dcards = Dcard::with(['nlp'])
+            $dcards = Dcard::with(['nlp', 'comparison'])
                 ->main()
                 ->where('Id', '<', $beforeId)
                 ->limit($limit)
@@ -119,7 +119,7 @@ class APIV2Controller extends Controller
     public function getDcardById($id): JsonResponse
     {
         try {
-            $dcards = Dcard::with(['nlp'])
+            $dcards = Dcard::with(['nlp', 'comparison'])
                 ->main()
                 ->whereIn('Id', [$id])
                 ->get();
@@ -147,7 +147,7 @@ class APIV2Controller extends Controller
     public function getDateBetween($date1, $date2): JsonResponse
     {
         try {
-            $dcards = Dcard::with(['nlp'])
+            $dcards = Dcard::with(['nlp', 'comparison'])
                 ->main()
                 ->whereBetween('CreatedAt', [$date1, $date2])
                 ->get();
@@ -183,7 +183,7 @@ class APIV2Controller extends Controller
 //                    $tomorrow = Carbon::now()->addDay();
                     $today = "2021-11-09";
                     $tomorrow = "2021-11-10";
-                    $dcards = Dcard::with(['nlp'])
+                    $dcards = Dcard::with(['nlp', 'comparison'])
                         ->main()
                         ->whereBetween('CreatedAt', [$today, $tomorrow])
 //                        ->whereDate('CreatedAt', $today)
@@ -201,7 +201,7 @@ class APIV2Controller extends Controller
 //                    $week_end = date('Y-m-d', strtotime('+'.(6-$day).' days'));
                     $week_start = "2021-11-07";
                     $week_end = "2021-11-13";
-                    $dcards = Dcard::with(['nlp'])
+                    $dcards = Dcard::with(['nlp', 'comparison'])
                         ->main()
                         ->whereBetween('CreatedAt', [$week_start, $week_end])
                         ->get();
@@ -217,7 +217,7 @@ class APIV2Controller extends Controller
 //                    $m0d31 = date("Y-m-d", strtotime("last day of 0 month"));
                     $m0d1 = "2021-11-01";
                     $m0d31 = "2021-11-30";
-                    $dcards = Dcard::with(['nlp'])
+                    $dcards = Dcard::with(['nlp', 'comparison'])
                         ->main()
                         ->whereBetween('CreatedAt', [$m0d1, $m0d31])
                         ->get();
@@ -230,7 +230,7 @@ class APIV2Controller extends Controller
                         JSON_UNESCAPED_UNICODE);
 
                 default:
-                    $dcards = Dcard::with(['nlp'])
+                    $dcards = Dcard::with(['nlp', 'comparison'])
                         ->main()
                         ->whereDate('CreatedAt', $type)
                         ->get();
