@@ -8,6 +8,7 @@
         "php": "^7.4|^8.0",
         "algolia/algoliasearch-client-php": "^3.2",
         "algolia/scout-extended": "2.0",
+        "darkaonline/l5-swagger": "^8.3",
         "fabpot/php-cs-fixer": "^3.3",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
