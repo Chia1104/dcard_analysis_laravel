@@ -28,4 +28,4 @@ Route::get('/v2/dcard/{id}', 'APIV2Controller@getDcardById');
 Route::get('/v2/date/{date1}/{date2}', 'APIV2Controller@getDateBetween');
 Route::get('/v2/date', 'APIV2Controller@getDateDcards');
 Route::get('/v2/PieChart', 'APIV2Controller@getPieChartDatas');
-//Route::get('/v2/LineChart', 'APIV2Controller@getLineChartDatas');
+Route::get('/v2/LineChart', 'APIV2Controller@getLineChartDatas');
