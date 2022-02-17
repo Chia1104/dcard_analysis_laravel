@@ -258,14 +258,52 @@ class APIV2Controller extends Controller
             $date1 = $request -> date1;
             $date2 = $request -> date2;
             $date2 = $date2 . 'T23:59:59';
-            $avg = Nlp::main()
-                ->whereBetween('CreatedAt', [$date1, $date2])
-                ->avg('SA_Score');
+
+//            $avg = Nlp::main()
+//                ->whereBetween('CreatedAt', [$date1, $date2])
+//                ->avg('SA_Score');
+
+            $avg = Nlp::raw(function($collection)
+            {
+                return $collection->aggregate([
+                    [
+                        '$match' => [
+                            'CreatedAt' => ['$gt' => '2020-12', '$lte' => '2021-11T23:59:59'],
+                        ]
+                    ],
+                    [
+                        '$project' => [
+                            'datetime' => [
+                                '$substr' => [
+                                    '$CreatedAt', 0, 7
+                                ]
+//                                '$dateFromString' => [
+//                                    'dateString' => '$CreatedAt',
+//                                ]
+                            ],
+                        ]
+                    ],
+                    [
+                        '$group' => [
+                            '_id' => '$datetime',
+                            'avg_score' => [
+                                '$avg' => '$SA_Score',
+                            ],
+                        ]
+                    ],
+                    [
+                        '$sort' => [
+                            '_id' => -1
+                        ],
+                    ],
+                ]);
+            });
+
             $result['avg'] = $avg;
             return response()->json($result, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
                 JSON_UNESCAPED_UNICODE);
         } catch (\Exception $e) {
-            $error['message'] = '404 Not Found' . $e;
+            $error['message'] = '404 Not Found ' . $e;
             return response()->json($error, 404);
         }
     }
