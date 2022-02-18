@@ -24,6 +24,36 @@ class APIV2Controller extends Controller
      * @param Request $request
      * @return JsonResponse
      */
+    /**
+     * @OA\Get(
+     *      path="/api/v2/dcard",
+     *      operationId="dcards",
+     *      tags={"Dcard"},
+     *      summary="Get All Dcards",
+     *      description="Get All Dcards",
+     *      security={
+     *         {
+     *              "Authorization": {}
+     *         }
+     *      },
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated."
+     *      ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="not found"
+     *      ),
+     * )
+     * Returns list of articles
+     */
     public function getDcards(Request $request): JsonResponse
     {
         try {
@@ -46,6 +76,43 @@ class APIV2Controller extends Controller
      *
      * @param Request $request
      * @return JsonResponse
+     */
+    /**
+     * @OA\Get(
+     *      path="/api/v2/searchDcard",
+     *      operationId="searchDcards",
+     *      tags={"Dcard"},
+     *      summary="Search Dcards",
+     *      description="Search Dcards",
+     *      security={
+     *         {
+     *              "Authorization": {}
+     *         }
+     *      },
+     *      @OA\Parameter(
+     *          name="search",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated."
+     *      ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="not found"
+     *      ),
+     * )
+     * Returns list of articles
      */
     public function searchDcards(Request $request): JsonResponse
     {
@@ -79,6 +146,43 @@ class APIV2Controller extends Controller
      * @param $id
      * @return JsonResponse
      */
+    /**
+     * @OA\Get(
+     *      path="/api/v2/dcard/{id}",
+     *      operationId="dcard",
+     *      tags={"Dcard"},
+     *      summary="Get Dcard",
+     *      description="Get Dcard",
+     *      security={
+     *         {
+     *              "Authorization": {}
+     *         }
+     *      },
+     *     @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated."
+     *      ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="not found"
+     *      ),
+     * )
+     * Returns list of articles
+     */
     public function getDcardById($id): JsonResponse
     {
         try {
@@ -106,6 +210,50 @@ class APIV2Controller extends Controller
      * @param $date1
      * @param $date2
      * @return JsonResponse
+     */
+    /**
+     * @OA\Get(
+     *      path="/api/v2/date/{date1}/{date2}",
+     *      operationId="dateBetween",
+     *      tags={"Dcard"},
+     *      summary="Get Date Between Dcards",
+     *      description="Get Date Between Dcards",
+     *      security={
+     *         {
+     *              "Authorization": {}
+     *         }
+     *      },
+     *     @OA\Parameter(
+     *          name="date1",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="date2",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated."
+     *      ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="not found"
+     *      ),
+     * )
+     * Returns list of articles
      */
     public function getDateBetween($date1, $date2): JsonResponse
     {
@@ -137,6 +285,43 @@ class APIV2Controller extends Controller
      *
      * @param $type
      * @return JsonResponse
+     */
+    /**
+     * @OA\Get(
+     *      path="/api/v2/date/{type}",
+     *      operationId="date",
+     *      tags={"Dcard"},
+     *      summary="Get Date Dcards",
+     *      description="Get Date Dcards",
+     *      security={
+     *         {
+     *              "Authorization": {}
+     *         }
+     *      },
+     *     @OA\Parameter(
+     *          name="type",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated."
+     *      ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="not found"
+     *      ),
+     * )
+     * Returns list of articles
      */
     public function getDateDcards($type): JsonResponse
     {
@@ -218,6 +403,50 @@ class APIV2Controller extends Controller
      *
      * @param Request $request
      * @return JsonResponse
+     */
+    /**
+     * @OA\Get(
+     *      path="/api/v2/totalSAClass",
+     *      operationId="dateBetween",
+     *      tags={"Chart"},
+     *      summary="Get Total SA_Class",
+     *      description="Get Total SA_Class",
+     *      security={
+     *         {
+     *              "Authorization": {}
+     *         }
+     *      },
+     *     @OA\Parameter(
+     *          name="date1",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="date2",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated."
+     *      ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="not found"
+     *      ),
+     * )
+     * Returns list of articles
      */
     public function getTotalSAClass(Request $request): JsonResponse
     {
