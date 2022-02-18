@@ -261,8 +261,8 @@ class APIV2Controller extends Controller
             $dcards = Dcard::with(['nlp', 'comparison'])
                 ->main()
                 ->whereBetween('CreatedAt', array(
-                    Carbon::createFromDate(Carbon::createFromFormat('Y-m-d', $date1)->year, Carbon::createFromFormat('Y-m-d', $date1)->month, Carbon::createFromFormat('Y-m-d', $date1)->day),
-                    Carbon::createFromDate(Carbon::createFromFormat('Y-m-d', $date2)->year, Carbon::createFromFormat('Y-m-d', $date2)->month, Carbon::createFromFormat('Y-m-d', $date2)->day)
+                    Carbon::createFromFormat('Y-m-d', $date1),
+                    Carbon::createFromFormat('Y-m-d', $date2)
                 ))
                 ->paginate(30);
 
@@ -407,7 +407,7 @@ class APIV2Controller extends Controller
     /**
      * @OA\Get(
      *      path="/api/v2/totalSAClass",
-     *      operationId="dateBetween",
+     *      operationId="totalSaClass",
      *      tags={"Chart"},
      *      summary="Get Total SA_Class",
      *      description="Get Total SA_Class",
@@ -460,8 +460,8 @@ class APIV2Controller extends Controller
                 $count = Nlp::main()
                     ->where('SA_Class', $saclass[$i])
                     ->whereBetween('CreatedAt', array(
-                        Carbon::createFromDate(Carbon::createFromFormat('Y-m-d', $date1)->year, Carbon::createFromFormat('Y-m-d', $date1)->month, Carbon::createFromFormat('Y-m-d', $date1)->day),
-                        Carbon::createFromDate(Carbon::createFromFormat('Y-m-d', $date2)->year, Carbon::createFromFormat('Y-m-d', $date2)->month, Carbon::createFromFormat('Y-m-d', $date2)->day)
+                        Carbon::createFromFormat('Y-m-d', $date1),
+                        Carbon::createFromFormat('Y-m-d', $date2)
                     ))
                     ->count();
                 $pdatas[] = array($saclass[$i] => $count);
@@ -484,6 +484,36 @@ class APIV2Controller extends Controller
      * @param Request $request
      * @return JsonResponse
      */
+    /**
+     * @OA\Get(
+     *      path="/api/v2/avgSAScore",
+     *      operationId="avgSAScore",
+     *      tags={"Chart"},
+     *      summary="Get Avg SA_Score",
+     *      description="Get Avg SA_Score",
+     *      security={
+     *         {
+     *              "Authorization": {}
+     *         }
+     *      },
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated."
+     *      ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="not found"
+     *      ),
+     * )
+     * Returns list of articles
+     */
     public function getAvgSAScore(Request $request): JsonResponse
     {
         try {
@@ -491,24 +521,22 @@ class APIV2Controller extends Controller
             $avg = Nlp::raw(function($collection)
                 {
                     return $collection->aggregate([
+//                        [
+//                            '$match' => [
+//                                'CreatedAt' => [
+//                                    '$gte' => Carbon::createFromFormat('Y-m', '2020-12'),
+//                                    '$lte' => Carbon::createFromFormat('Y-m', '2021-11'),
+//                                ]
+//                            ]
+//                        ],
                         [
-                            '$project' => [
-                                'formattedDate' => [
+                            '$group' => [
+                                '_id' => [
                                     '$dateToString' => [
                                         'format' => '%Y-%m',
                                         'date' => '$CreatedAt'
                                     ]
                                 ],
-                            ]
-                        ],
-                        [
-                            '$match' => [
-                                'formattedDate' => ['$gte' => '2020-12', '$lte' => '2021-11'],
-                            ]
-                        ],
-                        [
-                            '$group' => [
-                                '_id' => '$formattedDate',
                                 'avg_score' => [
                                     '$avg' => '$SA_Score',
                                 ],
@@ -525,6 +553,7 @@ class APIV2Controller extends Controller
             $result['avg'] = $avg;
             return response()->json($result, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
                 JSON_UNESCAPED_UNICODE);
+
         } catch (\Exception $e) {
             $error['message'] = '404 Not Found ' . $e;
             return response()->json($error, 404);

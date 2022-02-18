@@ -188,6 +188,44 @@ class UserController extends Controller
      *
      * @return JsonResponse
      */
+    /**
+     * @OA\Post(
+     *      path="/api/v2/details",
+     *      operationId="user-details",
+     *      tags={"Auth"},
+     *      summary="Get User Details",
+     *      description="Get User Details",
+     *      security={
+     *         {
+     *              "Authorization": {}
+     *         }
+     *      },
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="not found"
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     * Returns list of articles
+     */
     public function details(): JsonResponse
     {
         $user = Auth::user();
