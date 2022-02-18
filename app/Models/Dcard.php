@@ -13,6 +13,7 @@ class Dcard extends Model
     protected $collection = 'dcards';
     protected $primaryKey = 'Id';
     protected $keyType = 'string';
+    protected $dates = ['CreatedAt', 'UpdatedAt'];
     /**
      * @var mixed
      */
@@ -20,10 +21,9 @@ class Dcard extends Model
 
     public function scopeMain($query)
     {
-        return $query->select('Id', 'Title', 'CreatedAt', 'Content', 'Topics', 'Tags', 'Gender')->orderByDesc('Id');
+        return $query->select('Id', 'Title', 'DateTime', 'CreatedAt', 'Content', 'Topics', 'Tags', 'Gender')->orderByDesc('Id');
     }
 
-    protected $touches = ['nlp'];
     public function nlp(): BelongsTo
     {
         return $this->belongsTo(Nlp::class, 'Id', 'Id')
@@ -42,5 +42,21 @@ class Dcard extends Model
     public function searchableAs(): string
     {
         return 'dcards_index';
+    }
+
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        $array = $this->transform($array);
+
+        $array['SA_Score'] = $this->nlp ? $this->nlp->SA_Score : '';
+        $array['SA_Class'] = $this->nlp ? $this->nlp->SA_Class : '';
+        $array['Level'] = $this->comparison ? $this->comparison->Level : '';
+        $array['KeywordLevel1'] = $this->comparison ? $this->comparison->KeywordLevel1 : '';
+        $array['KeywordLevel2'] = $this->comparison ? $this->comparison->KeywordLevel2 : '';
+        $array['KeywordLevel3'] = $this->comparison ? $this->comparison->KeywordLevel3 : '';
+
+        return $array;
     }
 }

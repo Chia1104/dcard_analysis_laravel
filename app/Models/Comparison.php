@@ -12,6 +12,7 @@ class Comparison extends Model
     protected $collection = 'comparison_datas';
     protected $primaryKey = 'Id';
     protected $keyType = 'string';
+    protected $dates = ['CreatedAt'];
     use HasFactory;
 
     public function scopeMain($query)

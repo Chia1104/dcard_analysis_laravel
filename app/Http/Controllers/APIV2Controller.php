@@ -67,7 +67,7 @@ class APIV2Controller extends Controller
                 return response()->json($error, 404);
             }
         } catch (\Exception $e) {
-            $error['message'] = '404 Not Found';
+            $error['message'] = '404 Not Found ' . $e;
             return response()->json($error, 404);
         }
     }
@@ -147,8 +147,8 @@ class APIV2Controller extends Controller
                     $dcards = Dcard::with(['nlp', 'comparison'])
                         ->main()
                         ->whereBetween('CreatedAt', array(
-                            Carbon::createFromDate(2021, 11, 8),
-                            Carbon::createFromDate(2021, 11, 9)
+                            Carbon::createFromDate(2021, 11, 9),
+                            Carbon::createFromDate(2021, 11, 10)
                         ))
                         ->paginate(30);
                     if ($dcards->isEmpty()) {
@@ -258,24 +258,10 @@ class APIV2Controller extends Controller
     public function getAvgSAScore(Request $request): JsonResponse
     {
         try {
-            $date1 = $request -> date1;
-            $date2 = $request -> date2;
-
-//            $avg = Nlp::main()
-//                ->whereBetween('CreatedAt', array(
-//                    Carbon::createFromDate(Carbon::createFromFormat('Y-m-d', $date1)->year, Carbon::createFromFormat('Y-m-d', $date1)->month, Carbon::createFromFormat('Y-m-d', $date1)->day),
-//                    Carbon::createFromDate(Carbon::createFromFormat('Y-m-d', $date2)->year, Carbon::createFromFormat('Y-m-d', $date2)->month, Carbon::createFromFormat('Y-m-d', $date2)->day)
-//                ))
-//                ->avg('SA_Score');
 
             $avg = Nlp::raw(function($collection)
                 {
                     return $collection->aggregate([
-                        [
-                            '$match' => [
-                                'CreatedAt' => ['$gt' => Carbon::createFromDate(2021, 10, 1), '$lte' => Carbon::createFromDate(2021, 11, 30)],
-                            ]
-                        ],
                         [
                             '$project' => [
                                 'formattedDate' => [
@@ -284,6 +270,11 @@ class APIV2Controller extends Controller
                                         'date' => '$CreatedAt'
                                     ]
                                 ],
+                            ]
+                        ],
+                        [
+                            '$match' => [
+                                'formattedDate' => ['$gte' => '2020-12', '$lte' => '2021-11'],
                             ]
                         ],
                         [
