@@ -34,6 +34,8 @@ COPY docker/Passport/PersonalAccessClient.php vendor/laravel/passport/src/Person
 COPY docker/Passport/Token.php vendor/laravel/passport/src/Token.php
 RUN php artisan passport:keys --force
 
+RUN php artisan l5-swagger:generate
+
 COPY --from=node /app/public public
 
 RUN chown -R www-data: /var/www
