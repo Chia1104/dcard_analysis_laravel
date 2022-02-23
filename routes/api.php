@@ -21,7 +21,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 });
 
 // API V2
-Route::get('/v2/dcard', 'APIV2Controller@getDcards');
+Route::get('/v2/dcard', 'Dcard\Controllers\DcardAPIController@getDcards');
 Route::get('/v2/searchDcard', 'APIV2Controller@searchDcards');
 Route::get('/v2/beforeDcard', 'APIV2Controller@beforeId');
 Route::get('/v2/dcard/{id}', 'APIV2Controller@getDcardById');

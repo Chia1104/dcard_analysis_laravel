@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class APIV2Controller extends Controller
+class APIV2Controller extends APIController
 {
     public function __construct()
     {
