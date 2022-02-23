@@ -20,7 +20,7 @@ class Nlp extends Model
         parent::boot();
 
         static::saved(function ($model) {
-            $model->articles->filter(function ($item) {
+            $model->dcard->filter(function ($item) {
                 return $item->shouldBeSearchable();
             })->searchable();
         });

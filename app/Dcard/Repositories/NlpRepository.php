@@ -13,9 +13,8 @@ class NlpRepository
     }
 
     public function getNlp() {
-        $nlp = $this -> _nlp
+        return $this -> _nlp
             ->select('Id', 'SA_Score', 'SA_Class')
             ->orderByDesc('Id');
-        return $nlp->dcards;
     }
 }

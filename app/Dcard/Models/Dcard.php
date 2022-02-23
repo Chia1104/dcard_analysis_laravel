@@ -14,9 +14,7 @@ class Dcard extends Model
     protected $primaryKey = 'Id';
     protected $keyType = 'string';
     protected $dates = ['CreatedAt', 'UpdatedAt'];
-    /**
-     * @var mixed
-     */
+
     use HasFactory, Searchable;
 
     public function nlp(): BelongsTo

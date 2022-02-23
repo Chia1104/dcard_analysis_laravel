@@ -14,18 +14,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Auth
-Route::post('/v2/login', 'UserController@login');
-Route::post('/v2/register', 'UserController@register');
+Route::post('/v2/login', 'Auth\Controllers\UserAPIController@login');
+Route::post('/v2/register', 'Auth\Controllers\UserAPIController@register');
 Route::group(['middleware' => 'auth:api'], function(){
-    Route::post('/v2/details', 'UserController@details');
+    Route::post('/v2/details', 'Auth\Controllers\UserAPIController@details');
 });
 
 // API V2
 Route::get('/v2/dcard', 'Dcard\Controllers\DcardAPIController@getDcards');
-Route::get('/v2/searchDcard', 'APIV2Controller@searchDcards');
-Route::get('/v2/beforeDcard', 'APIV2Controller@beforeId');
-Route::get('/v2/dcard/{id}', 'APIV2Controller@getDcardById');
-Route::get('/v2/date/{date1}/{date2}', 'APIV2Controller@getDateBetween');
-Route::get('/v2/date/{type}', 'APIV2Controller@getDateDcards');
-Route::get('/v2/totalSAClass', 'APIV2Controller@getTotalSAClass');
-Route::get('/v2/avgSAScore', 'APIV2Controller@getAvgSAScore');
+Route::get('/v2/searchDcard', 'Dcard\Controllers\DcardAPIController@searchDcards');
+Route::get('/v2/dcard/{id}', 'Dcard\Controllers\DcardAPIController@getDcardById');
+Route::get('/v2/date/{date1}/{date2}', 'Dcard\Controllers\DcardAPIController@getDateBetween');
+Route::get('/v2/date/{type}', 'Dcard\Controllers\DcardAPIController@getDateDcards');
+Route::get('/v2/totalSAClass', 'Dcard\Controllers\ChartAPIController@getTotalSAClass');
+Route::get('/v2/avgSAScore', 'Dcard\Controllers\ChartAPIController@getAvgSAScore');

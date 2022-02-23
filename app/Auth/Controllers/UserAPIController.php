@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Auth\Controllers;
 
+use App\Http\Controllers\APIController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
-class UserController extends Controller
+class UserAPIController extends APIController
 {
     public int $successStatus = 200;
 
@@ -17,8 +18,7 @@ class UserController extends Controller
      * login api
      *
      * @return JsonResponse
-     */
-    /**
+     *
      * @OA\Post(
      ** path="/api/v2/login",
      *   tags={"Auth"},
@@ -89,8 +89,7 @@ class UserController extends Controller
      *
      * @param Request $request
      * @return JsonResponse
-     */
-    /**
+     *
      * @OA\Post(
      ** path="/api/v2/register",
      *   tags={"Auth"},
@@ -187,8 +186,7 @@ class UserController extends Controller
      * details api
      *
      * @return JsonResponse
-     */
-    /**
+     *
      * @OA\Post(
      *      path="/api/v2/details",
      *      operationId="user-details",
