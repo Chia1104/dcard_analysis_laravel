@@ -7,7 +7,7 @@ COPY . .
 RUN npm install \
     && npm run production
 
-FROM php:8.0-fpm-alpine
+FROM php:fpm-alpine
 
 RUN apk --update add --virtual build-dependencies build-base openssl-dev autoconf \
   && pecl install mongodb \
