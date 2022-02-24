@@ -14,8 +14,8 @@ class ComparisonRepositroy
 
     public function getMain() {
         $comparison = $this -> _comparison
-            ->select('Id', 'Level', 'KeywordLevel1', 'KeywordLevel2', 'KeywordLevel3')
-            ->orderByDesc('Id');
+            ->select('id', 'level', 'keyword_level1', 'keyword_level2', 'keyword_level3')
+            ->orderByDesc('id');
         return $comparison->dcards;
     }
 }

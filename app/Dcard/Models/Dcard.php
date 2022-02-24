@@ -11,22 +11,22 @@ class Dcard extends Model
 {
     protected $connection = 'mongodb';
     protected $collection = 'dcards';
-    protected $primaryKey = 'Id';
+    protected $primaryKey = 'id';
     protected $keyType = 'string';
-    protected $dates = ['CreatedAt', 'UpdatedAt'];
+    protected $dates = ['created_at', 'updated_at'];
 
     use HasFactory, Searchable;
 
     public function nlp(): BelongsTo
     {
-        return $this->belongsTo(Nlp::class, 'Id', 'Id')
-            ->select('Id', 'SA_Score', 'SA_Class');
+        return $this->belongsTo(Nlp::class, 'id', 'id')
+            ->select('id', 'sa_score', 'sa_class');
     }
 
     public function comparison(): BelongsTo
     {
-        return $this->belongsTo(Comparison::class, 'Id', 'Id')
-            ->select('Id', 'Level', 'KeywordLevel1', 'KeywordLevel2', 'KeywordLevel3');
+        return $this->belongsTo(Comparison::class, 'id', 'id')
+            ->select('id', 'level', 'keyword_level1', 'keyword_level2', 'keyword_level3');
     }
 
     /**
@@ -43,12 +43,12 @@ class Dcard extends Model
 
         $array = $this->transform($array);
 
-        $array['SA_Score'] = $this->nlp ? $this->nlp->SA_Score : '';
-        $array['SA_Class'] = $this->nlp ? $this->nlp->SA_Class : '';
-        $array['Level'] = $this->comparison ? $this->comparison->Level : '';
-        $array['KeywordLevel1'] = $this->comparison ? $this->comparison->KeywordLevel1 : '';
-        $array['KeywordLevel2'] = $this->comparison ? $this->comparison->KeywordLevel2 : '';
-        $array['KeywordLevel3'] = $this->comparison ? $this->comparison->KeywordLevel3 : '';
+        $array['sa_score'] = $this->nlp ? $this->nlp->sa_score : '';
+        $array['sa_class'] = $this->nlp ? $this->nlp->sa_class : '';
+        $array['level'] = $this->comparison ? $this->comparison->level : '';
+        $array['keyword_level1'] = $this->comparison ? $this->comparison->keyword_level1 : '';
+        $array['keyword_level2'] = $this->comparison ? $this->comparison->keyword_level2 : '';
+        $array['keyword_level3'] = $this->comparison ? $this->comparison->keyword_level3 : '';
 
         return $array;
     }

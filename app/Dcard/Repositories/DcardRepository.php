@@ -17,15 +17,15 @@ class DcardRepository
     public function getAllDcards(): Builder
     {
         return $this -> _dcard::with(['nlp', 'comparison'])
-            ->select('Id', 'Title', 'DateTime', 'CreatedAt', 'Content', 'Topics', 'Tags', 'Gender')
-            ->orderByDesc('Id');
+            ->select('id', 'title', 'date_time', 'created_at', 'content', 'topics', 'tags', 'gender')
+            ->orderByDesc('id');
     }
 
     public function getDcardById($id): Builder
     {
         return $this -> _dcard::with(['nlp', 'comparison'])
-            ->select('Id', 'Title', 'DateTime', 'CreatedAt', 'Content', 'Topics', 'Tags', 'Gender')
-            ->whereIn('Id', [$id]);
+            ->select('id', 'title', 'date_time', 'created_at', 'content', 'topics', 'tags', 'gender')
+            ->whereIn('id', [$id]);
     }
 
     public function searchDcards($search): \Laravel\Scout\Builder
@@ -36,11 +36,11 @@ class DcardRepository
     public function getDateBetween($date1, $date2): Builder
     {
         return $this -> _dcard::with(['nlp', 'comparison'])
-            ->select('Id', 'Title', 'DateTime', 'CreatedAt', 'Content', 'Topics', 'Tags', 'Gender')
-            ->whereBetween('CreatedAt', array(
+            ->select('id', 'title', 'date_time', 'created_at', 'content', 'topics', 'tags', 'gender')
+            ->whereBetween('created_at', array(
                 Carbon::createFromFormat('Y-m-d', $date1),
                 Carbon::createFromFormat('Y-m-d', $date2)
             ))
-            ->orderByDesc('Id');
+            ->orderByDesc('id');
     }
 }

@@ -23,8 +23,8 @@ class NlpService
         for ($i = 0; $i < count($saclass); $i++) {
             $count = $this -> _nlpRepo
                 -> getNlp()
-                ->where('SA_Class', $saclass[$i])
-                ->whereBetween('CreatedAt', array(
+                ->where('sa_class', $saclass[$i])
+                ->whereBetween('created_at', array(
                     Carbon::createFromFormat('Y-m-d', $date1),
                     Carbon::createFromFormat('Y-m-d', $date2)
                 ))
@@ -39,12 +39,14 @@ class NlpService
     {
         return $this -> _nlp::raw(function($collection)
         {
+            $date1 = Carbon::createFromFormat('Y-m-d', '2020-12-01');
+            $date2 = Carbon::createFromFormat('Y-m-d', '2021-11-30');
             return $collection->aggregate([
 //                [
 //                    '$match' => [
-//                        'CreatedAt' => [
-//                            '$gte' => Carbon::createFromFormat('Y-m', '2020-12'),
-//                            '$lte' => Carbon::createFromFormat('Y-m', '2021-11'),
+//                        'created_at' => [
+//                            '$gte' => $date1,
+//                            '$lte' => $date2,
 //                        ]
 //                    ]
 //                ],
@@ -53,11 +55,11 @@ class NlpService
                         '_id' => [
                             '$dateToString' => [
                                 'format' => '%Y-%m',
-                                'date' => '$CreatedAt'
+                                'date' => '$created_at'
                             ]
                         ],
                         'avg_score' => [
-                            '$avg' => '$SA_Score',
+                            '$avg' => '$sa_score',
                         ],
                     ]
                 ],

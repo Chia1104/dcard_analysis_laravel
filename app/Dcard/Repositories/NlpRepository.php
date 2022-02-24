@@ -14,7 +14,7 @@ class NlpRepository
 
     public function getNlp() {
         return $this -> _nlp
-            ->select('Id', 'SA_Score', 'SA_Class')
-            ->orderByDesc('Id');
+            ->select('id', 'sa_score', 'sa_class')
+            ->orderByDesc('id');
     }
 }

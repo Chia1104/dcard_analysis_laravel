@@ -10,9 +10,9 @@ class Nlp extends Model
 {
     protected $connection = 'mongodb';
     protected $collection = 'nlp_datas';
-    protected $primaryKey = 'Id';
+    protected $primaryKey = 'id';
     protected $keyType = 'string';
-    protected $dates = ['CreatedAt'];
+    protected $dates = ['created_at'];
     use HasFactory;
 
     public static function boot()
@@ -28,6 +28,6 @@ class Nlp extends Model
 
     public function dcard(): HasMany
     {
-        return $this->hasMany(Dcard::class, 'Id', 'Id');
+        return $this->hasMany(Dcard::class, 'id', 'id');
     }
 }
