@@ -313,4 +313,69 @@ class DcardAPIController extends APIController
         }
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     *
+     * @param $date1
+     * @param $date2
+     * @return JsonResponse
+     * @OA\Get(
+     *      path="/api/v2/maxScore/{date1}/{date2}",
+     *      operationId="maxScore",
+     *      tags={"Dcard"},
+     *      summary="Get Max SA_Score",
+     *      description="Get Max SA_Score",
+     *      security={
+     *         {
+     *              "Authorization": {}
+     *         }
+     *      },
+     *     @OA\Parameter(
+     *          name="date1",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="date2",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success",
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated."
+     *      ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="not found"
+     *      ),
+     * )
+     * Returns list of articles
+     */
+    public function getMaxScoreDcard($date1, $date2): JsonResponse
+    {
+        try {
+            $dcards = $this->_dcardService->getMaxScoreDcard($date1, $date2)
+                ->get();
+            if ($dcards->isEmpty()) {
+                $error['message'] = '404 Not Found';
+                return response()->json($error, 404);
+            }
+            return response()->json($dcards, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8']);
+        } catch (\Exception $e) {
+            $error['message'] = '404 Not Found';
+            return response()->json($error, 404);
+        }
+    }
 }

@@ -45,4 +45,9 @@ class DcardService
                 return $this -> _dcardRepo -> getDateBetween('2021-11-09', '2021-11-10');
         }
     }
+
+    public function getMaxScoreDcard($date1, $date2): Builder
+    {
+        return $this -> _dcardRepo -> getDateBetween($date1, $date2) -> max('nlp.sa_score');
+    }
 }

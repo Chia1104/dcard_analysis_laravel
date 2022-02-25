@@ -431,6 +431,51 @@
                     }
                 ]
             }
+        },
+        "/api/v2/maxScore/{date1}/{date2}": {
+            "get": {
+                "tags": [
+                    "Dcard"
+                ],
+                "summary": "Get Max SA_Score",
+                "description": "Get Max SA_Score",
+                "operationId": "maxScore",
+                "parameters": [
+                    {
+                        "name": "date1",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "date2",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated."
+                    },
+                    "404": {
+                        "description": "not found"
+                    }
+                },
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ]
+            }
         }
     },
     "components": {
