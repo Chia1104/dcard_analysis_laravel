@@ -273,7 +273,7 @@ class DcardAPIController extends APIController
      *         }
      *      },
      *     @OA\Parameter(
-     *          name="type",
+     *          name="type(today, week, month)",
      *          in="path",
      *          @OA\Schema(
      *              type="string"
@@ -366,8 +366,7 @@ class DcardAPIController extends APIController
     public function getMaxScoreDcard($date1, $date2): JsonResponse
     {
         try {
-            $dcards = $this->_dcardService->getMaxScoreDcard($date1, $date2)
-                ->get();
+            $dcards = $this->_dcardService->getMaxScoreDcard($date1, $date2)->get();
             if ($dcards->isEmpty()) {
                 $error['message'] = '404 Not Found';
                 return response()->json($error, 404);

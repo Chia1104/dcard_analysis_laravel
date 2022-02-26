@@ -98,6 +98,13 @@ class ChartAPIController extends APIController
      *         }
      *      },
      *     @OA\Parameter(
+     *          name="type(day, month)",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *     @OA\Parameter(
      *          name="date1",
      *          in="query",
      *          @OA\Schema(
@@ -134,7 +141,8 @@ class ChartAPIController extends APIController
         try {
             $date1 = $request -> date1;
             $date2 = $request -> date2;
-            $avgSAScore = $this->_nlpService->getAvgSAScore($date1, $date2);
+            $type = $request -> type;
+            $avgSAScore = $this->_nlpService->getAvgSAScore($type, $date1, $date2);
 
             return response()->json($avgSAScore, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8']);
         } catch (\Exception $e) {
