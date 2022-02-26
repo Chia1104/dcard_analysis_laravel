@@ -2,7 +2,7 @@
 
 namespace App\Dcard\Repositories;
 
-use App\Dcard\Models\Comparison;
+use App\Models\Comparison;
 
 class ComparisonRepositroy
 {

@@ -2,7 +2,7 @@
 
 namespace App\Dcard\Repositories;
 
-use App\Dcard\Models\Dcard;
+use App\Models\Dcard;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 

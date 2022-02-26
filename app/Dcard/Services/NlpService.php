@@ -3,7 +3,7 @@
 namespace App\Dcard\Services;
 
 use App\Dcard\Repositories\NlpRepository;
-use App\Dcard\Models\Nlp;
+use App\Models\Nlp;
 use Carbon\Carbon;
 
 class NlpService

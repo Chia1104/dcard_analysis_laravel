@@ -2,7 +2,7 @@
 
 namespace App\Dcard\Repositories;
 
-use App\Dcard\Models\Nlp;
+use App\Models\Nlp;
 
 class NlpRepository
 {
