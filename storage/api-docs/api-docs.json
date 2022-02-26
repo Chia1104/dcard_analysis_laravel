@@ -223,6 +223,22 @@
                 "summary": "Get Avg SA_Score",
                 "description": "Get Avg SA_Score",
                 "operationId": "avgSAScore",
+                "parameters": [
+                    {
+                        "name": "date1",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "date2",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success",

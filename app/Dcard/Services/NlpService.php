@@ -35,23 +35,13 @@ class NlpService
         return $result;
     }
 
-    public function getAvgSAScore()
+    public function getAvgSAScore($date1, $date2)
     {
-        return $this -> _nlp::raw(function($collection)
+        $firstDate = $date1;
+        $secondDate = $date2;
+        return $this -> _nlp::raw(function($collection) use ($firstDate, $secondDate)
         {
-            $date1 = Carbon::createFromFormat('Y-m-d', '2020-12-01');
-            $date2 = Carbon::createFromFormat('Y-m-d', '2021-11-30');
-            $ISODate1 = 'ISODate("2020-12-01")';
-            $ISODate2 = 'ISODate("2021-11-30")';
             return $collection->aggregate([
-//                [
-//                    '$match' => [
-//                        'created_at' => [
-//                            '$gte' => $date1,
-//                            '$lte' => $date2,
-//                        ]
-//                    ]
-//                ],
                 [
                     '$group' => [
                         '_id' => [
@@ -69,6 +59,14 @@ class NlpService
                     '$sort' => [
                         '_id' => -1
                     ],
+                ],
+                [
+                    '$match' => [
+                        '_id' => [
+                            '$gte' => $firstDate,
+                            '$lte' => $secondDate,
+                        ]
+                    ]
                 ],
             ]);
         });
