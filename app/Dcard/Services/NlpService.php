@@ -39,73 +39,68 @@ class NlpService
     {
         $firstDate = $date1;
         $secondDate = $date2;
-        switch($type) {
-            case 'day':
-                return $this -> _nlp::raw(function($collection) use ($firstDate, $secondDate)
-                {
-                    return $collection->aggregate([
-                        [
-                            '$group' => [
-                                '_id' => [
-                                    '$dateToString' => [
-                                        'format' => '%Y-%m-%d',
-                                        'date' => '$created_at'
-                                    ]
-                                ],
-                                'avg_score' => [
-                                    '$avg' => '$sa_score',
-                                ],
-                            ]
-                        ],
-                        [
-                            '$sort' => [
-                                '_id' => -1
-                            ],
-                        ],
-                        [
-                            '$match' => [
-                                '_id' => [
-                                    '$gte' => $firstDate,
-                                    '$lte' => $secondDate,
+        return match ($type) {
+            'day' => $this->_nlp::raw(function ($collection) use ($firstDate, $secondDate) {
+                return $collection->aggregate([
+                    [
+                        '$group' => [
+                            '_id' => [
+                                '$dateToString' => [
+                                    'format' => '%Y-%m-%d',
+                                    'date' => '$created_at'
                                 ]
-                            ]
-                        ],
-                    ]);
-                });
-            case 'month':
-            default:
-                return $this -> _nlp::raw(function($collection) use ($firstDate, $secondDate)
-                {
-                    return $collection->aggregate([
-                        [
-                            '$group' => [
-                                '_id' => [
-                                    '$dateToString' => [
-                                        'format' => '%Y-%m',
-                                        'date' => '$created_at'
-                                    ]
-                                ],
-                                'avg_score' => [
-                                    '$avg' => '$sa_score',
-                                ],
-                            ]
-                        ],
-                        [
-                            '$sort' => [
-                                '_id' => -1
                             ],
+                            'avg_score' => [
+                                '$avg' => '$sa_score',
+                            ],
+                        ]
+                    ],
+                    [
+                        '$sort' => [
+                            '_id' => -1
                         ],
-                        [
-                            '$match' => [
-                                '_id' => [
-                                    '$gte' => $firstDate,
-                                    '$lte' => $secondDate,
-                                ]
+                    ],
+                    [
+                        '$match' => [
+                            '_id' => [
+                                '$gte' => $firstDate,
+                                '$lte' => $secondDate,
                             ]
+                        ]
+                    ],
+                ]);
+            }),
+            default => $this->_nlp::raw(function ($collection) use ($firstDate, $secondDate) {
+                return $collection->aggregate([
+                    [
+                        '$group' => [
+                            '_id' => [
+                                '$dateToString' => [
+                                    'format' => '%Y-%m',
+                                    'date' => '$created_at'
+                                ]
+                            ],
+                            'avg_score' => [
+                                '$avg' => '$sa_score',
+                            ],
+                        ]
+                    ],
+                    [
+                        '$sort' => [
+                            '_id' => -1
                         ],
-                    ]);
-                });
-        }
+                    ],
+                    [
+                        '$match' => [
+                            '_id' => [
+                                '$gte' => $firstDate,
+                                '$lte' => $secondDate,
+                            ]
+                        ]
+                    ],
+                ]);
+            }),
+        };
 
     }
 }

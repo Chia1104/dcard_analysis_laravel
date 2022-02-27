@@ -273,7 +273,7 @@ class DcardAPIController extends APIController
      *         }
      *      },
      *     @OA\Parameter(
-     *          name="type(today, week, month)",
+     *          name="type",
      *          in="path",
      *          @OA\Schema(
      *              type="string"

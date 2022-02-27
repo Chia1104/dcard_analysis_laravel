@@ -98,7 +98,7 @@ class ChartAPIController extends APIController
      *         }
      *      },
      *     @OA\Parameter(
-     *          name="type(day, month)",
+     *          name="type",
      *          in="query",
      *          @OA\Schema(
      *              type="string"
@@ -139,9 +139,9 @@ class ChartAPIController extends APIController
     public function getAvgSAScore(Request $request): JsonResponse
     {
         try {
+            $type = $request -> type;
             $date1 = $request -> date1;
             $date2 = $request -> date2;
-            $type = $request -> type;
             $avgSAScore = $this->_nlpService->getAvgSAScore($type, $date1, $date2);
 
             return response()->json($avgSAScore, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8']);

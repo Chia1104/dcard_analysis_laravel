@@ -225,7 +225,7 @@
                 "operationId": "avgSAScore",
                 "parameters": [
                     {
-                        "name": "type(day, month)",
+                        "name": "type",
                         "in": "query",
                         "schema": {
                             "type": "string"
@@ -427,7 +427,7 @@
                 "operationId": "date",
                 "parameters": [
                     {
-                        "name": "type(today, week, month)",
+                        "name": "type",
                         "in": "path",
                         "schema": {
                             "type": "string"
