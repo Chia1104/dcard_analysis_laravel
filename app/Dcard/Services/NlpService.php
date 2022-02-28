@@ -5,6 +5,7 @@ namespace App\Dcard\Services;
 use App\Dcard\Repositories\NlpRepository;
 use App\Models\Nlp;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 
 class NlpService
 {
@@ -33,6 +34,17 @@ class NlpService
         }
         $result['total'] = $totalCount;
         return $result;
+    }
+
+    public function getMaxSAScore($date1, $date2)
+    {
+        return $this -> _nlpRepo
+            ->getNlp()
+            ->whereBetween('created_at', array(
+                Carbon::createFromFormat('Y-m-d', $date1),
+                Carbon::createFromFormat('Y-m-d', $date2)
+            ))
+            ->max('sa_score');
     }
 
     public function getAvgSAScore($type, $date1, $date2)
