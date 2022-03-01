@@ -26,6 +26,7 @@ Route::get('/v2/searchDcard', 'Dcard\Controllers\DcardAPIController@searchDcards
 Route::get('/v2/dcard/{id}', 'Dcard\Controllers\DcardAPIController@getDcardById');
 Route::get('/v2/date/{date1}/{date2}', 'Dcard\Controllers\DcardAPIController@getDateBetween');
 Route::get('/v2/date/{type}', 'Dcard\Controllers\DcardAPIController@getDateDcards');
-//Route::get('/v2/maxScore/{date1}/{date2}', 'Dcard\Controllers\DcardAPIController@getMaxScoreDcard');
+Route::get('/v2/maxScore/{date1}/{date2}', 'Dcard\Controllers\DcardAPIController@getMaxScoreDcard');
+Route::get('/v2/minScore/{date1}/{date2}', 'Dcard\Controllers\DcardAPIController@getMinScoreDcard');
 Route::get('/v2/totalSAClass', 'Dcard\Controllers\ChartAPIController@getTotalSAClass');
 Route::get('/v2/avgSAScore', 'Dcard\Controllers\ChartAPIController@getAvgSAScore');

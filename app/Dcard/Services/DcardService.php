@@ -3,14 +3,18 @@
 namespace App\Dcard\Services;
 
 use App\Dcard\Repositories\DcardRepository;
+use App\Dcard\Services\NlpService;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 
 class DcardService
 {
     private DcardRepository $_dcardRepo;
+    private NlpService $_nlpService;
 
-    public function __construct(DcardRepository $dcardRepo) {
+    public function __construct(DcardRepository $dcardRepo, NlpService $nlpService) {
         $this -> _dcardRepo = $dcardRepo;
+        $this -> _nlpService = $nlpService;
     }
 
     public function getAllDcards(): Builder
@@ -42,8 +46,17 @@ class DcardService
         };
     }
 
-    public function getMaxScoreDcard($date1, $date2)
+    public function getMaxScoreDcard($date1, $date2): Collection|array
     {
-        return $this -> _dcardRepo -> getDateBetween($date1, $date2) -> max('nlp -> sa_score');
+        $maxScore = $this -> _nlpService ->getMaxSAScore($date1, $date2);
+        $dcards = $this -> _dcardRepo -> getDateBetween($date1, $date2) -> get();
+        return $dcards->where('nlp.sa_score', '=', $maxScore);
+    }
+
+    public function getMinScoreDcard($date1, $date2): Collection|array
+    {
+        $minScore = $this -> _nlpService ->getMinSAScore($date1, $date2);
+        $dcards = $this -> _dcardRepo -> getDateBetween($date1, $date2) -> get();
+        return $dcards->where('nlp.sa_score', '=', $minScore);
     }
 }

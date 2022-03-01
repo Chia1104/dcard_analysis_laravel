@@ -47,6 +47,17 @@ class NlpService
             ->max('sa_score');
     }
 
+    public function getMinSAScore($date1, $date2)
+    {
+        return $this -> _nlpRepo
+            ->getNlp()
+            ->whereBetween('created_at', array(
+                Carbon::createFromFormat('Y-m-d', $date1),
+                Carbon::createFromFormat('Y-m-d', $date2)
+            ))
+            ->min('sa_score');
+    }
+
     public function getAvgSAScore($type, $date1, $date2)
     {
         $firstDate = $date1;
