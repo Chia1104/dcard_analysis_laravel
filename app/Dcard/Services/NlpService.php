@@ -23,12 +23,8 @@ class NlpService
         $totalCount = array();
         for ($i = 0; $i < count($saClass); $i++) {
             $count = $this -> _nlpRepo
-                ->getNlp()
+                ->getDateBetween($date1, $date2)
                 ->where('sa_class', $saClass[$i])
-                ->whereBetween('created_at', array(
-                    Carbon::createFromFormat('Y-m-d', $date1),
-                    Carbon::createFromFormat('Y-m-d', $date2)
-                ))
                 ->count();
             $totalCount[] = array($saClass[$i] => $count);
         }
@@ -39,22 +35,14 @@ class NlpService
     public function getMaxSAScore($date1, $date2)
     {
         return $this -> _nlpRepo
-            ->getNlp()
-            ->whereBetween('created_at', array(
-                Carbon::createFromFormat('Y-m-d', $date1),
-                Carbon::createFromFormat('Y-m-d', $date2)
-            ))
+            ->getDateBetween($date1, $date2)
             ->max('sa_score');
     }
 
     public function getMinSAScore($date1, $date2)
     {
         return $this -> _nlpRepo
-            ->getNlp()
-            ->whereBetween('created_at', array(
-                Carbon::createFromFormat('Y-m-d', $date1),
-                Carbon::createFromFormat('Y-m-d', $date2)
-            ))
+            ->getDateBetween($date1, $date2)
             ->min('sa_score');
     }
 

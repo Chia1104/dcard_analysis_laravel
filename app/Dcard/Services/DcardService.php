@@ -40,23 +40,21 @@ class DcardService
     public function getDateDcards($type): Builder
     {
         return match ($type) {
-            'week' => $this->_dcardRepo->getDateBetween('2021-11-07', '2021-11-13'),
-            'month' => $this->_dcardRepo->getDateBetween('2021-11-01', '2021-11-30'),
-            default => $this->_dcardRepo->getDateBetween('2021-11-09', '2021-11-10'),
+            'week' => $this -> _dcardRepo -> getDateBetween('2021-11-07', '2021-11-13'),
+            'month' => $this -> _dcardRepo -> getDateBetween('2021-11-01', '2021-11-30'),
+            default => $this -> _dcardRepo -> getDateBetween('2021-11-09', '2021-11-10'),
         };
     }
 
     public function getMaxScoreDcard($date1, $date2): Collection|array
     {
         $maxScore = $this -> _nlpService ->getMaxSAScore($date1, $date2);
-        $dcards = $this -> _dcardRepo -> getDateBetween($date1, $date2) -> get();
-        return $dcards->where('nlp.sa_score', '=', $maxScore);
+        return $this -> _dcardRepo -> getDateBetween($date1, $date2) -> get() -> where('nlp.sa_score', '=', $maxScore);
     }
 
     public function getMinScoreDcard($date1, $date2): Collection|array
     {
         $minScore = $this -> _nlpService ->getMinSAScore($date1, $date2);
-        $dcards = $this -> _dcardRepo -> getDateBetween($date1, $date2) -> get();
-        return $dcards->where('nlp.sa_score', '=', $minScore);
+        return $this -> _dcardRepo -> getDateBetween($date1, $date2) -> get() -> where('nlp.sa_score', '=', $minScore);
     }
 }
