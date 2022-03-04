@@ -6,6 +6,7 @@ use App\Dcard\Repositories\NlpRepository;
 use App\Models\Nlp;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use MongoDB\BSON\UTCDateTime;
 
 class NlpService
 {
@@ -52,7 +53,17 @@ class NlpService
         $secondDate = $date2;
         return match ($type) {
             'day' => $this->_nlp::raw(function ($collection) use ($firstDate, $secondDate) {
+                $firstDate = new UTCDateTime(Carbon::createFromFormat('Y-m-d', $firstDate)->timestamp * 1000);
+                $secondDate = new UTCDateTime(Carbon::createFromFormat('Y-m-d', $secondDate)->timestamp * 1000);
                 return $collection->aggregate([
+                    [
+                        '$match' => [
+                            'created_at' => [
+                                '$gte' => $firstDate,
+                                '$lte' => $secondDate,
+                            ]
+                        ]
+                    ],
                     [
                         '$group' => [
                             '_id' => [
@@ -71,18 +82,20 @@ class NlpService
                             '_id' => -1
                         ],
                     ],
+                ]);
+            }),
+            default => $this->_nlp::raw(function ($collection) use ($firstDate, $secondDate) {
+                $firstDate = new UTCDateTime(Carbon::createFromFormat('Y-m', $firstDate)->timestamp * 1000);
+                $secondDate = new UTCDateTime(Carbon::createFromFormat('Y-m', $secondDate)->timestamp * 1000);
+                return $collection->aggregate([
                     [
                         '$match' => [
-                            '_id' => [
+                            'created_at' => [
                                 '$gte' => $firstDate,
                                 '$lte' => $secondDate,
                             ]
                         ]
                     ],
-                ]);
-            }),
-            default => $this->_nlp::raw(function ($collection) use ($firstDate, $secondDate) {
-                return $collection->aggregate([
                     [
                         '$group' => [
                             '_id' => [
@@ -100,14 +113,6 @@ class NlpService
                         '$sort' => [
                             '_id' => -1
                         ],
-                    ],
-                    [
-                        '$match' => [
-                            '_id' => [
-                                '$gte' => $firstDate,
-                                '$lte' => $secondDate,
-                            ]
-                        ]
                     ],
                 ]);
             }),

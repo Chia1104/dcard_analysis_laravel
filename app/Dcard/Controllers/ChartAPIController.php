@@ -146,7 +146,7 @@ class ChartAPIController extends APIController
 
             return response()->json($avgSAScore, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8']);
         } catch (\Exception $e) {
-            $error['message'] = '404 Not Found ' . $e;
+            $error['message'] = '404 Not Found';
             return response()->json($error, 404);
         }
     }

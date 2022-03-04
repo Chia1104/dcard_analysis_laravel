@@ -19,8 +19,10 @@
         "laravel/scout": "^9.3",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
+        "mongodb/mongodb": "^1.11",
         "nesbot/carbon": "^2.54",
-        "spatie/laravel-query-builder": "^4.0"
+        "spatie/laravel-query-builder": "^4.0",
+        "ext-mongodb": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
