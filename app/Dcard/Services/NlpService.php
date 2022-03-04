@@ -67,9 +67,48 @@ class NlpService
                     [
                         '$group' => [
                             '_id' => [
-                                '$dateToString' => [
-                                    'format' => '%Y-%m-%d',
-                                    'date' => '$created_at'
+                                'year' => [
+                                    '$year' => '$created_at',
+                                ],
+                                'month' => [
+                                    '$month' => '$created_at',
+                                ],
+                                'day' => [
+                                    '$dayOfMonth' => '$created_at',
+                                ],
+                            ],
+                            'avg_score' => [
+                                '$avg' => '$sa_score',
+                            ],
+                        ]
+                    ],
+                    [
+                        '$sort' => [
+                            '_id' => -1
+                        ],
+                    ],
+                ]);
+            }),
+            'week' => $this->_nlp::raw(function ($collection) use ($firstDate, $secondDate) {
+                $firstDate = new UTCDateTime(Carbon::createFromFormat('Y-m-d', $firstDate)->timestamp * 1000);
+                $secondDate = new UTCDateTime(Carbon::createFromFormat('Y-m-d', $secondDate)->timestamp * 1000);
+                return $collection->aggregate([
+                    [
+                        '$match' => [
+                            'created_at' => [
+                                '$gte' => $firstDate,
+                                '$lte' => $secondDate,
+                            ]
+                        ]
+                    ],
+                    [
+                        '$group' => [
+                            '_id' => [
+                                'year' => [
+                                    '$year' => '$created_at',
+                                ],
+                                'week' => [
+                                    '$week' => '$created_at',
                                 ]
                             ],
                             'avg_score' => [
@@ -99,10 +138,12 @@ class NlpService
                     [
                         '$group' => [
                             '_id' => [
-                                '$dateToString' => [
-                                    'format' => '%Y-%m',
-                                    'date' => '$created_at'
-                                ]
+                                'year' => [
+                                    '$year' => '$created_at',
+                                ],
+                                'month' => [
+                                    '$month' => '$created_at',
+                                ],
                             ],
                             'avg_score' => [
                                 '$avg' => '$sa_score',
