@@ -35,6 +35,7 @@ jobs:
         run: |
           composer test
   php-cs-fixer:
+    needs: build
     runs-on: ubuntu-latest
     env:
       PHP_CS_FIXER_VERSION: v3.7.0
