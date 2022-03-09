@@ -25,9 +25,9 @@ jobs:
         run: php-cs-fixer fix --dry-run --diff --ansi
   
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     name: PHP v${{ matrix.php }} with Mongo v${{ matrix.mongodb }}
-      continue-on-error: ${{ matrix.experimental }}
+    continue-on-error: ${{ matrix.experimental }}
       strategy:
         matrix:
           include:
