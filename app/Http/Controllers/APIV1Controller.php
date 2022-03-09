@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class APIV1Controller extends APIController
 {
-
     public function __construct()
     {
         $this->middleware('auth:api');
@@ -23,7 +22,7 @@ class APIV1Controller extends APIController
      */
     public function getDcard(Request $request): JsonResponse
     {
-        $limit = $request -> limit == null ? 10 : $request -> limit;
+        $limit = $request->limit == null ? 10 : $request->limit;
         if ($limit <= 0) {
             $limit = 1;
         }
@@ -31,23 +30,38 @@ class APIV1Controller extends APIController
             $dcardAll = DB::table('dcard_rawdata')
                 ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
                 ->leftJoin('comparison', 'comparison.Id', '=', 'nlp_analysis.Id')
-                ->select('dcard_rawdata.Id', 'dcard_rawdata.Title', 'dcard_rawdata.CreatedAt', 'dcard_rawdata.Content'
-                    , 'nlp_analysis.SA_Score', 'nlp_analysis.SA_Class', 'comparison.Level', 'comparison.KeywordLevel1',
-                    'comparison.KeywordLevel2', 'comparison.KeywordLevel3')
+                ->select(
+                    'dcard_rawdata.Id',
+                    'dcard_rawdata.Title',
+                    'dcard_rawdata.CreatedAt',
+                    'dcard_rawdata.Content'
+                    ,
+                    'nlp_analysis.SA_Score',
+                    'nlp_analysis.SA_Class',
+                    'comparison.Level',
+                    'comparison.KeywordLevel1',
+                    'comparison.KeywordLevel2',
+                    'comparison.KeywordLevel3'
+                )
                 ->orderByDesc('dcard_rawdata.Id')
                 ->limit($limit)
                 ->get();
 
-            if (!$dcardAll->isEmpty()){
-                return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
-                    JSON_UNESCAPED_UNICODE);
+            if (!$dcardAll->isEmpty()) {
+                return response()->json(
+                    $dcardAll,
+                    200,
+                    ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+                    JSON_UNESCAPED_UNICODE
+                );
             } else {
                 $error['message'] = '404 Not Found';
+
                 return response()->json($error, 404);
             }
-
         } catch (Exception $e) {
             $error['message'] = '404 Not Found' . $e;
+
             return response()->json($error, 404);
         }
     }
@@ -58,10 +72,10 @@ class APIV1Controller extends APIController
      * @param Request $request
      * @return JsonResponse
      */
-
-    public function beforeId(Request $request): JsonResponse {
-        $limit = $request -> limit == null ? 10 : $request -> limit;
-        $beforeId = $request -> beforeId == null ? 237415791 : $request -> beforeId;
+    public function beforeId(Request $request): JsonResponse
+    {
+        $limit = $request->limit == null ? 10 : $request->limit;
+        $beforeId = $request->beforeId == null ? 237415791 : $request->beforeId;
         if ($limit <= 0) {
             $limit = 1;
         }
@@ -69,22 +83,38 @@ class APIV1Controller extends APIController
             $dcardAll = DB::table('dcard_rawdata')
                 ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
                 ->leftJoin('comparison', 'comparison.Id', '=', 'nlp_analysis.Id')
-                ->select('dcard_rawdata.Id', 'dcard_rawdata.Title', 'dcard_rawdata.CreatedAt', 'dcard_rawdata.Content'
-                    , 'nlp_analysis.SA_Score', 'nlp_analysis.SA_Class', 'comparison.Level', 'comparison.KeywordLevel1',
-                    'comparison.KeywordLevel2', 'comparison.KeywordLevel3')
+                ->select(
+                    'dcard_rawdata.Id',
+                    'dcard_rawdata.Title',
+                    'dcard_rawdata.CreatedAt',
+                    'dcard_rawdata.Content'
+                    ,
+                    'nlp_analysis.SA_Score',
+                    'nlp_analysis.SA_Class',
+                    'comparison.Level',
+                    'comparison.KeywordLevel1',
+                    'comparison.KeywordLevel2',
+                    'comparison.KeywordLevel3'
+                )
                 ->orderByDesc('dcard_rawdata.Id')
                 ->where('dcard_rawdata.Id', '<', $beforeId)
                 ->limit($limit)
                 ->get();
-            if (!$dcardAll->isEmpty()){
-                return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
-                    JSON_UNESCAPED_UNICODE);
+            if (!$dcardAll->isEmpty()) {
+                return response()->json(
+                    $dcardAll,
+                    200,
+                    ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+                    JSON_UNESCAPED_UNICODE
+                );
             } else {
                 $error['message'] = '404 Not Found';
+
                 return response()->json($error, 404);
             }
         } catch (Exception $e) {
             $error['message'] = '404 Not Found' . $e;
+
             return response()->json($error, 404);
         }
     }
@@ -101,20 +131,36 @@ class APIV1Controller extends APIController
             $dcardAll = DB::table('dcard_rawdata')
                 ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
                 ->leftJoin('comparison', 'comparison.Id', '=', 'nlp_analysis.Id')
-                ->select('dcard_rawdata.Id', 'dcard_rawdata.Title', 'dcard_rawdata.CreatedAt', 'dcard_rawdata.Content'
-                    , 'nlp_analysis.SA_Score', 'nlp_analysis.SA_Class', 'comparison.Level', 'comparison.KeywordLevel1',
-                    'comparison.KeywordLevel2', 'comparison.KeywordLevel3')
+                ->select(
+                    'dcard_rawdata.Id',
+                    'dcard_rawdata.Title',
+                    'dcard_rawdata.CreatedAt',
+                    'dcard_rawdata.Content'
+                    ,
+                    'nlp_analysis.SA_Score',
+                    'nlp_analysis.SA_Class',
+                    'comparison.Level',
+                    'comparison.KeywordLevel1',
+                    'comparison.KeywordLevel2',
+                    'comparison.KeywordLevel3'
+                )
                 ->whereIn('dcard_rawdata.Id', [$id])
                 ->get();
-            if (!$dcardAll->isEmpty()){
-                return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
-                    JSON_UNESCAPED_UNICODE);
+            if (!$dcardAll->isEmpty()) {
+                return response()->json(
+                    $dcardAll,
+                    200,
+                    ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+                    JSON_UNESCAPED_UNICODE
+                );
             } else {
                 $error['message'] = '404 Not Found';
+
                 return response()->json($error, 404);
             }
         } catch (Exception $e) {
             $error['message'] = '404 Not Found' . $e;
+
             return response()->json($error, 404);
         }
     }
@@ -125,33 +171,51 @@ class APIV1Controller extends APIController
      * @param Request $request
      * @return JsonResponse
      */
-    public function searchContent(Request $request): JsonResponse {
-        $content = $request -> search;
+    public function searchContent(Request $request): JsonResponse
+    {
+        $content = $request->search;
 
-        if ($request -> search == null) {
+        if ($request->search == null) {
             $error['message'] = '404 Not Found!!';
+
             return response()->json($error, 404);
         } else {
             try {
                 $dcardAll = DB::table('dcard_rawdata')
                     ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
                     ->leftJoin('comparison', 'comparison.Id', '=', 'nlp_analysis.Id')
-                    ->select('dcard_rawdata.Id', 'dcard_rawdata.Title', 'dcard_rawdata.CreatedAt', 'dcard_rawdata.Content'
-                        , 'nlp_analysis.SA_Score', 'nlp_analysis.SA_Class', 'comparison.Level', 'comparison.KeywordLevel1',
-                        'comparison.KeywordLevel2', 'comparison.KeywordLevel3')
+                    ->select(
+                        'dcard_rawdata.Id',
+                        'dcard_rawdata.Title',
+                        'dcard_rawdata.CreatedAt',
+                        'dcard_rawdata.Content'
+                        ,
+                        'nlp_analysis.SA_Score',
+                        'nlp_analysis.SA_Class',
+                        'comparison.Level',
+                        'comparison.KeywordLevel1',
+                        'comparison.KeywordLevel2',
+                        'comparison.KeywordLevel3'
+                    )
                     ->orderByDesc('dcard_rawdata.Id')
                     ->where('dcard_rawdata.Content', 'LIKE', "%{$content}%")
                     ->orWhere('dcard_rawdata.Title', 'LIKE', "%{$content}%")
                     ->get();
-                if (!$dcardAll->isEmpty()){
-                    return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
-                        JSON_UNESCAPED_UNICODE);
+                if (!$dcardAll->isEmpty()) {
+                    return response()->json(
+                        $dcardAll,
+                        200,
+                        ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+                        JSON_UNESCAPED_UNICODE
+                    );
                 } else {
                     $error['message'] = '404 Not Found';
+
                     return response()->json($error, 404);
                 }
             } catch (Exception $e) {
                 $error['message'] = '404 Not Found' . $e;
+
                 return response()->json($error, 404);
             }
         }
@@ -170,21 +234,37 @@ class APIV1Controller extends APIController
             $dcardAll = DB::table('dcard_rawdata')
                 ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
                 ->leftJoin('comparison', 'comparison.Id', '=', 'nlp_analysis.Id')
-                ->select('dcard_rawdata.Id', 'dcard_rawdata.Title', 'dcard_rawdata.CreatedAt', 'dcard_rawdata.Content'
-                    , 'nlp_analysis.SA_Score', 'nlp_analysis.SA_Class', 'comparison.Level', 'comparison.KeywordLevel1',
-                    'comparison.KeywordLevel2', 'comparison.KeywordLevel3')
+                ->select(
+                    'dcard_rawdata.Id',
+                    'dcard_rawdata.Title',
+                    'dcard_rawdata.CreatedAt',
+                    'dcard_rawdata.Content'
+                    ,
+                    'nlp_analysis.SA_Score',
+                    'nlp_analysis.SA_Class',
+                    'comparison.Level',
+                    'comparison.KeywordLevel1',
+                    'comparison.KeywordLevel2',
+                    'comparison.KeywordLevel3'
+                )
                 ->whereBetween('dcard_rawdata.CreatedAt', [$date1, $date2])
                 ->orderByDesc('dcard_rawdata.Id')
                 ->get();
-            if (!$dcardAll->isEmpty()){
-                return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
-                    JSON_UNESCAPED_UNICODE);
+            if (!$dcardAll->isEmpty()) {
+                return response()->json(
+                    $dcardAll,
+                    200,
+                    ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+                    JSON_UNESCAPED_UNICODE
+                );
             } else {
                 $error['message'] = '404 Not Found';
+
                 return response()->json($error, 404);
             }
         } catch (Exception $e) {
             $error['message'] = '404 Not Found' . $e;
+
             return response()->json($error, 404);
         }
     }
@@ -198,25 +278,41 @@ class APIV1Controller extends APIController
     {
         try {
 //            $today = date("Y-m-d");
-            $today = "2021-11-09";
+            $today = '2021-11-09';
             $dcardAll = DB::table('dcard_rawdata')
                 ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
                 ->leftJoin('comparison', 'comparison.Id', '=', 'nlp_analysis.Id')
-                ->select('dcard_rawdata.Id', 'dcard_rawdata.Title', 'dcard_rawdata.CreatedAt', 'dcard_rawdata.Content'
-                    , 'nlp_analysis.SA_Score', 'nlp_analysis.SA_Class', 'comparison.Level', 'comparison.KeywordLevel1',
-                    'comparison.KeywordLevel2', 'comparison.KeywordLevel3')
+                ->select(
+                    'dcard_rawdata.Id',
+                    'dcard_rawdata.Title',
+                    'dcard_rawdata.CreatedAt',
+                    'dcard_rawdata.Content'
+                    ,
+                    'nlp_analysis.SA_Score',
+                    'nlp_analysis.SA_Class',
+                    'comparison.Level',
+                    'comparison.KeywordLevel1',
+                    'comparison.KeywordLevel2',
+                    'comparison.KeywordLevel3'
+                )
                 ->whereDate('dcard_rawdata.CreatedAt', $today)
                 ->orderByDesc('dcard_rawdata.Id')
                 ->get();
-            if (!$dcardAll->isEmpty()){
-                return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
-                    JSON_UNESCAPED_UNICODE);
+            if (!$dcardAll->isEmpty()) {
+                return response()->json(
+                    $dcardAll,
+                    200,
+                    ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+                    JSON_UNESCAPED_UNICODE
+                );
             } else {
                 $error['message'] = '404 Not Found';
+
                 return response()->json($error, 404);
             }
         } catch (Exception $e) {
             $error['message'] = '404 Not Found' . $e;
+
             return response()->json($error, 404);
         }
     }
@@ -232,26 +328,42 @@ class APIV1Controller extends APIController
 //            $day = date('w');
 //            $week_start = date('Y-m-d', strtotime('-'.$day.' days'));
 //            $week_end = date('Y-m-d', strtotime('+'.(6-$day).' days'));
-            $week_start = "2021-11-07";
-            $week_end = "2021-11-13";
+            $week_start = '2021-11-07';
+            $week_end = '2021-11-13';
             $dcardAll = DB::table('dcard_rawdata')
                 ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
                 ->leftJoin('comparison', 'comparison.Id', '=', 'nlp_analysis.Id')
-                ->select('dcard_rawdata.Id', 'dcard_rawdata.Title', 'dcard_rawdata.CreatedAt', 'dcard_rawdata.Content'
-                    , 'nlp_analysis.SA_Score', 'nlp_analysis.SA_Class', 'comparison.Level', 'comparison.KeywordLevel1',
-                    'comparison.KeywordLevel2', 'comparison.KeywordLevel3')
+                ->select(
+                    'dcard_rawdata.Id',
+                    'dcard_rawdata.Title',
+                    'dcard_rawdata.CreatedAt',
+                    'dcard_rawdata.Content'
+                    ,
+                    'nlp_analysis.SA_Score',
+                    'nlp_analysis.SA_Class',
+                    'comparison.Level',
+                    'comparison.KeywordLevel1',
+                    'comparison.KeywordLevel2',
+                    'comparison.KeywordLevel3'
+                )
                 ->whereBetween('dcard_rawdata.CreatedAt', [$week_start, $week_end])
                 ->orderByDesc('dcard_rawdata.Id')
                 ->get();
-            if (!$dcardAll->isEmpty()){
-                return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
-                    JSON_UNESCAPED_UNICODE);
+            if (!$dcardAll->isEmpty()) {
+                return response()->json(
+                    $dcardAll,
+                    200,
+                    ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+                    JSON_UNESCAPED_UNICODE
+                );
             } else {
                 $error['message'] = '404 Not Found';
+
                 return response()->json($error, 404);
             }
         } catch (Exception $e) {
             $error['message'] = '404 Not Found' . $e;
+
             return response()->json($error, 404);
         }
     }
@@ -266,26 +378,42 @@ class APIV1Controller extends APIController
         try {
 //            $m0d1 = date("Y-m-d", strtotime("first day of 0 month"));
 //            $m0d31 = date("Y-m-d", strtotime("last day of 0 month"));
-            $m0d1 = "2021-11-01";
-            $m0d31 = "2021-11-30";
+            $m0d1 = '2021-11-01';
+            $m0d31 = '2021-11-30';
             $dcardAll = DB::table('dcard_rawdata')
                 ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
                 ->leftJoin('comparison', 'comparison.Id', '=', 'nlp_analysis.Id')
-                ->select('dcard_rawdata.Id', 'dcard_rawdata.Title', 'dcard_rawdata.CreatedAt', 'dcard_rawdata.Content'
-                    , 'nlp_analysis.SA_Score', 'nlp_analysis.SA_Class', 'comparison.Level', 'comparison.KeywordLevel1',
-                    'comparison.KeywordLevel2', 'comparison.KeywordLevel3')
+                ->select(
+                    'dcard_rawdata.Id',
+                    'dcard_rawdata.Title',
+                    'dcard_rawdata.CreatedAt',
+                    'dcard_rawdata.Content'
+                    ,
+                    'nlp_analysis.SA_Score',
+                    'nlp_analysis.SA_Class',
+                    'comparison.Level',
+                    'comparison.KeywordLevel1',
+                    'comparison.KeywordLevel2',
+                    'comparison.KeywordLevel3'
+                )
                 ->whereBetween('dcard_rawdata.CreatedAt', [$m0d1, $m0d31])
                 ->orderByDesc('dcard_rawdata.Id')
                 ->get();
-            if (!$dcardAll->isEmpty()){
-                return response()->json($dcardAll, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
-                    JSON_UNESCAPED_UNICODE);
+            if (!$dcardAll->isEmpty()) {
+                return response()->json(
+                    $dcardAll,
+                    200,
+                    ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+                    JSON_UNESCAPED_UNICODE
+                );
             } else {
                 $error['message'] = '404 Not Found';
+
                 return response()->json($error, 404);
             }
         } catch (Exception $e) {
             $error['message'] = '404 Not Found' . $e;
+
             return response()->json($error, 404);
         }
     }
@@ -328,15 +456,21 @@ class APIV1Controller extends APIController
                 ->get();
             $negCount = collect($negCount);
             $merged = $posCount->merge($neuCount)->merge($negCount);
-            if (!$merged->isEmpty()){
-                return response()->json($merged, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
-                    JSON_UNESCAPED_UNICODE);
+            if (!$merged->isEmpty()) {
+                return response()->json(
+                    $merged,
+                    200,
+                    ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+                    JSON_UNESCAPED_UNICODE
+                );
             } else {
                 $error['message'] = '404 Not Found';
+
                 return response()->json($error, 404);
             }
         } catch (Exception $e) {
             $error['message'] = '404 Not Found' . $e;
+
             return response()->json($error, 404);
         }
     }
@@ -351,8 +485,8 @@ class APIV1Controller extends APIController
         try {
 //            $m0d31 = date("Y-m-d", strtotime("last day of 0 month"));
 //            $m3d1 = date("Y-m-d", strtotime("first day of -3 month"));
-            $m0d31 = "2021-11-30";
-            $m3d1 = "2021-08-01";
+            $m0d31 = '2021-11-30';
+            $m3d1 = '2021-08-01';
             $posCount = DB::table('dcard_rawdata')
                 ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
                 ->select(DB::raw('count(nlp_analysis.SA_Class) as Count'), DB::raw("DATE_FORMAT(dcard_rawdata.CreatedAt, '%Y-%m') as newDate"))
@@ -381,15 +515,21 @@ class APIV1Controller extends APIController
                 ->get();
             $negCount = collect($negCount);
             $merged = $posCount->merge($neuCount)->merge($negCount);
-            if (!$merged->isEmpty()){
-                return response()->json($merged, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
-                    JSON_UNESCAPED_UNICODE);
+            if (!$merged->isEmpty()) {
+                return response()->json(
+                    $merged,
+                    200,
+                    ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+                    JSON_UNESCAPED_UNICODE
+                );
             } else {
                 $error['message'] = '404 Not Found';
+
                 return response()->json($error, 404);
             }
         } catch (Exception $e) {
             $error['message'] = '404 Not Found' . $e;
+
             return response()->json($error, 404);
         }
     }
@@ -404,8 +544,8 @@ class APIV1Controller extends APIController
         try {
 //            $m0d31 = date("Y-m-d", strtotime("last day of 0 month"));
 //            $m11d1 = date("Y-m-d", strtotime("first day of -11 month"));
-            $m0d31 = "2021-11-30";
-            $m11d1 = "2020-12-01";
+            $m0d31 = '2021-11-30';
+            $m11d1 = '2020-12-01';
             $posCount = DB::table('dcard_rawdata')
                 ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
                 ->select(DB::raw('count(nlp_analysis.SA_Class) as Count'), DB::raw("DATE_FORMAT(dcard_rawdata.CreatedAt, '%Y-%m') as newDate"))
@@ -434,15 +574,21 @@ class APIV1Controller extends APIController
                 ->get();
             $negCount = collect($negCount);
             $merged = $posCount->merge($neuCount)->merge($negCount);
-            if (!$merged->isEmpty()){
-                return response()->json($merged, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
-                    JSON_UNESCAPED_UNICODE);
+            if (!$merged->isEmpty()) {
+                return response()->json(
+                    $merged,
+                    200,
+                    ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+                    JSON_UNESCAPED_UNICODE
+                );
             } else {
                 $error['message'] = '404 Not Found!!';
+
                 return response()->json($error, 404);
             }
         } catch (Exception $e) {
             $error['message'] = '404 Not Found!!' . $e;
+
             return response()->json($error, 404);
         }
     }
@@ -457,8 +603,8 @@ class APIV1Controller extends APIController
         try {
 //            $m0d31 = date("Y-m-d", strtotime("last day of 0 month"));
 //            $m11d1 = date("Y-m-d", strtotime("first day of -11 month"));
-            $m0d31 = "2021-11-30";
-            $m11d1 = "2020-12-01";
+            $m0d31 = '2021-11-30';
+            $m11d1 = '2020-12-01';
             $lineChartData = DB::table('dcard_rawdata')
                 ->leftJoin('nlp_analysis', 'dcard_rawdata.Id', '=', 'nlp_analysis.Id')
                 ->select(DB::raw('avg(nlp_analysis.SA_Score) as avgScore'), DB::raw("DATE_FORMAT(dcard_rawdata.CreatedAt, '%Y-%m') as newDate"))
@@ -466,15 +612,21 @@ class APIV1Controller extends APIController
                 ->orderByDesc('newDate')
                 ->whereBetween('dcard_rawdata.CreatedAt', [$m11d1, $m0d31])
                 ->get();
-            if (!$lineChartData->isEmpty()){
-                return response()->json($lineChartData, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
-                    JSON_UNESCAPED_UNICODE);
+            if (!$lineChartData->isEmpty()) {
+                return response()->json(
+                    $lineChartData,
+                    200,
+                    ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+                    JSON_UNESCAPED_UNICODE
+                );
             } else {
                 $error['message'] = '404 Not Found!!';
+
                 return response()->json($error, 404);
             }
         } catch (Exception $e) {
             $error['message'] = '404 Not Found!!' . $e;
+
             return response()->json($error, 404);
         }
     }

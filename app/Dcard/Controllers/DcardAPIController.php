@@ -2,10 +2,10 @@
 
 namespace App\Dcard\Controllers;
 
+use App\Dcard\Services\DcardService;
 use App\Http\Controllers\APIController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Dcard\Services\DcardService;
 
 class DcardAPIController extends APIController
 {
@@ -54,13 +54,13 @@ class DcardAPIController extends APIController
     public function getDcards(): JsonResponse
     {
         try {
-
             $dcards = $this->_dcardService->getAllDcards()
                 ->paginate(30);
 
             return response()->json($dcards, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8']);
         } catch (\Exception $e) {
             $error['message'] = '404 Not Found';
+
             return response()->json($error, 404);
         }
     }
@@ -110,23 +110,26 @@ class DcardAPIController extends APIController
     public function searchDcards(Request $request): JsonResponse
     {
         try {
-            if($request->has('search')){
-                $search = $request -> search;
+            if ($request->has('search')) {
+                $search = $request->search;
                 $dcards = $this->_dcardService->searchDcards($search)
                     ->paginate(30);
 
                 if ($dcards->isEmpty()) {
                     $error['message'] = '404 Not Found';
+
                     return response()->json($error, 404);
                 }
 
                 return response()->json($dcards, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8']);
-            }else{
+            } else {
                 $error['message'] = '404 Not Found';
+
                 return response()->json($error, 404);
             }
         } catch (\Exception $e) {
             $error['message'] = '404 Not Found ' . $e;
+
             return response()->json($error, 404);
         }
     }
@@ -180,11 +183,14 @@ class DcardAPIController extends APIController
                 ->get();
             if ($dcards->isEmpty()) {
                 $error['message'] = '404 Not Found';
+
                 return response()->json($error, 404);
             }
+
             return response()->json($dcards, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8']);
         } catch (\Exception $e) {
             $error['message'] = '404 Not Found ' . $e;
+
             return response()->json($error, 404);
         }
     }
@@ -246,11 +252,14 @@ class DcardAPIController extends APIController
                 ->paginate(30);
             if ($dcards->isEmpty()) {
                 $error['message'] = '404 Not Found';
+
                 return response()->json($error, 404);
             }
+
             return response()->json($dcards, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8']);
         } catch (\Exception $e) {
             $error['message'] = '404 Not Found';
+
             return response()->json($error, 404);
         }
     }
@@ -304,11 +313,14 @@ class DcardAPIController extends APIController
                 ->paginate(30);
             if ($dcards->isEmpty()) {
                 $error['message'] = '404 Not Found';
+
                 return response()->json($error, 404);
             }
+
             return response()->json($dcards, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8']);
         } catch (\Exception $e) {
             $error['message'] = '404 Not Found';
+
             return response()->json($error, 404);
         }
     }
@@ -367,9 +379,11 @@ class DcardAPIController extends APIController
     {
         try {
             $dcards = $this->_dcardService->getMaxScoreDcard($date1, $date2);
+
             return response()->json($dcards, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8']);
         } catch (\Exception $e) {
             $error['message'] = '404 Not Found';
+
             return response()->json($error, 404);
         }
     }
@@ -428,9 +442,11 @@ class DcardAPIController extends APIController
     {
         try {
             $dcards = $this->_dcardService->getMinScoreDcard($date1, $date2);
+
             return response()->json($dcards, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8']);
         } catch (\Exception $e) {
             $error['message'] = '404 Not Found';
+
             return response()->json($error, 404);
         }
     }

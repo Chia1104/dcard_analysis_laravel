@@ -35,7 +35,6 @@ use Illuminate\Routing\Controller as BaseController;
  *      name="Authorization"
  * )
  */
-
 class APIController extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;

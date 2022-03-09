@@ -29,7 +29,7 @@
                     "Auth"
                 ],
                 "summary": "Login",
-                "description": "login api",
+                "description": "login api.",
                 "operationId": "login",
                 "parameters": [
                     {
@@ -77,7 +77,7 @@
                     "Auth"
                 ],
                 "summary": "Register",
-                "description": "Register api",
+                "description": "Register api.",
                 "operationId": "register",
                 "parameters": [
                     {

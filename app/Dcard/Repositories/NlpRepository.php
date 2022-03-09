@@ -10,24 +10,26 @@ class NlpRepository
 {
     private Nlp $_nlp;
 
-    public function __construct(Nlp $nlp) {
-        $this -> _nlp = $nlp;
+    public function __construct(Nlp $nlp)
+    {
+        $this->_nlp = $nlp;
     }
 
-    public function getNlp() {
-        return $this -> _nlp
+    public function getNlp()
+    {
+        return $this->_nlp
             ->select('id', 'sa_score', 'sa_class')
             ->orderByDesc('id');
     }
 
     public function getDateBetween($date1, $date2): Builder
     {
-        return $this -> _nlp
+        return $this->_nlp
             ->select('id', 'created_at', 'sa_score', 'sa_class')
-            ->whereBetween('created_at', array(
+            ->whereBetween('created_at', [
                 Carbon::createFromFormat('Y-m-d', $date1),
-                Carbon::createFromFormat('Y-m-d', $date2)
-            ))
+                Carbon::createFromFormat('Y-m-d', $date2),
+            ])
             ->orderByDesc('id');
     }
 }

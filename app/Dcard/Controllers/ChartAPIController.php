@@ -2,10 +2,10 @@
 
 namespace App\Dcard\Controllers;
 
+use App\Dcard\Services\NlpService;
 use App\Http\Controllers\APIController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Dcard\Services\NlpService;
 
 class ChartAPIController extends APIController
 {
@@ -69,13 +69,14 @@ class ChartAPIController extends APIController
     public function getTotalSAClass(Request $request): JsonResponse
     {
         try {
-            $date1 = $request -> date1;
-            $date2 = $request -> date2;
+            $date1 = $request->date1;
+            $date2 = $request->date2;
             $totalSAClass = $this->_nlpService->getTotalSAClass($date1, $date2);
 
             return response()->json($totalSAClass, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8']);
         } catch (\Exception $e) {
             $error['message'] = '404 Not Found';
+
             return response()->json($error, 404);
         }
     }
@@ -139,14 +140,15 @@ class ChartAPIController extends APIController
     public function getAvgSAScore(Request $request): JsonResponse
     {
         try {
-            $type = $request -> type;
-            $date1 = $request -> date1;
-            $date2 = $request -> date2;
+            $type = $request->type;
+            $date1 = $request->date1;
+            $date2 = $request->date2;
             $avgSAScore = $this->_nlpService->getAvgSAScore($type, $date1, $date2);
 
             return response()->json($avgSAScore, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8']);
         } catch (\Exception $e) {
             $error['message'] = '404 Not Found';
+
             return response()->json($error, 404);
         }
     }
