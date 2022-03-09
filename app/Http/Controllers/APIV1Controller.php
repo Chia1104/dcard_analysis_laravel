@@ -34,8 +34,7 @@ class APIV1Controller extends APIController
                     'dcard_rawdata.Id',
                     'dcard_rawdata.Title',
                     'dcard_rawdata.CreatedAt',
-                    'dcard_rawdata.Content'
-                    ,
+                    'dcard_rawdata.Content',
                     'nlp_analysis.SA_Score',
                     'nlp_analysis.SA_Class',
                     'comparison.Level',
@@ -59,7 +58,7 @@ class APIV1Controller extends APIController
 
                 return response()->json($error, 404);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $error['message'] = '404 Not Found' . $e;
 
             return response()->json($error, 404);
@@ -87,8 +86,7 @@ class APIV1Controller extends APIController
                     'dcard_rawdata.Id',
                     'dcard_rawdata.Title',
                     'dcard_rawdata.CreatedAt',
-                    'dcard_rawdata.Content'
-                    ,
+                    'dcard_rawdata.Content',
                     'nlp_analysis.SA_Score',
                     'nlp_analysis.SA_Class',
                     'comparison.Level',
@@ -112,7 +110,7 @@ class APIV1Controller extends APIController
 
                 return response()->json($error, 404);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $error['message'] = '404 Not Found' . $e;
 
             return response()->json($error, 404);
@@ -135,8 +133,7 @@ class APIV1Controller extends APIController
                     'dcard_rawdata.Id',
                     'dcard_rawdata.Title',
                     'dcard_rawdata.CreatedAt',
-                    'dcard_rawdata.Content'
-                    ,
+                    'dcard_rawdata.Content',
                     'nlp_analysis.SA_Score',
                     'nlp_analysis.SA_Class',
                     'comparison.Level',
@@ -158,7 +155,7 @@ class APIV1Controller extends APIController
 
                 return response()->json($error, 404);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $error['message'] = '404 Not Found' . $e;
 
             return response()->json($error, 404);
@@ -188,8 +185,7 @@ class APIV1Controller extends APIController
                         'dcard_rawdata.Id',
                         'dcard_rawdata.Title',
                         'dcard_rawdata.CreatedAt',
-                        'dcard_rawdata.Content'
-                        ,
+                        'dcard_rawdata.Content',
                         'nlp_analysis.SA_Score',
                         'nlp_analysis.SA_Class',
                         'comparison.Level',
@@ -213,7 +209,7 @@ class APIV1Controller extends APIController
 
                     return response()->json($error, 404);
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $error['message'] = '404 Not Found' . $e;
 
                 return response()->json($error, 404);
@@ -238,8 +234,7 @@ class APIV1Controller extends APIController
                     'dcard_rawdata.Id',
                     'dcard_rawdata.Title',
                     'dcard_rawdata.CreatedAt',
-                    'dcard_rawdata.Content'
-                    ,
+                    'dcard_rawdata.Content',
                     'nlp_analysis.SA_Score',
                     'nlp_analysis.SA_Class',
                     'comparison.Level',
@@ -262,7 +257,7 @@ class APIV1Controller extends APIController
 
                 return response()->json($error, 404);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $error['message'] = '404 Not Found' . $e;
 
             return response()->json($error, 404);
@@ -286,8 +281,7 @@ class APIV1Controller extends APIController
                     'dcard_rawdata.Id',
                     'dcard_rawdata.Title',
                     'dcard_rawdata.CreatedAt',
-                    'dcard_rawdata.Content'
-                    ,
+                    'dcard_rawdata.Content',
                     'nlp_analysis.SA_Score',
                     'nlp_analysis.SA_Class',
                     'comparison.Level',
@@ -310,7 +304,7 @@ class APIV1Controller extends APIController
 
                 return response()->json($error, 404);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $error['message'] = '404 Not Found' . $e;
 
             return response()->json($error, 404);
@@ -337,8 +331,7 @@ class APIV1Controller extends APIController
                     'dcard_rawdata.Id',
                     'dcard_rawdata.Title',
                     'dcard_rawdata.CreatedAt',
-                    'dcard_rawdata.Content'
-                    ,
+                    'dcard_rawdata.Content',
                     'nlp_analysis.SA_Score',
                     'nlp_analysis.SA_Class',
                     'comparison.Level',
@@ -361,7 +354,7 @@ class APIV1Controller extends APIController
 
                 return response()->json($error, 404);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $error['message'] = '404 Not Found' . $e;
 
             return response()->json($error, 404);
@@ -387,8 +380,7 @@ class APIV1Controller extends APIController
                     'dcard_rawdata.Id',
                     'dcard_rawdata.Title',
                     'dcard_rawdata.CreatedAt',
-                    'dcard_rawdata.Content'
-                    ,
+                    'dcard_rawdata.Content',
                     'nlp_analysis.SA_Score',
                     'nlp_analysis.SA_Class',
                     'comparison.Level',
@@ -411,7 +403,7 @@ class APIV1Controller extends APIController
 
                 return response()->json($error, 404);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $error['message'] = '404 Not Found' . $e;
 
             return response()->json($error, 404);
@@ -468,7 +460,7 @@ class APIV1Controller extends APIController
 
                 return response()->json($error, 404);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $error['message'] = '404 Not Found' . $e;
 
             return response()->json($error, 404);
@@ -527,7 +519,7 @@ class APIV1Controller extends APIController
 
                 return response()->json($error, 404);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $error['message'] = '404 Not Found' . $e;
 
             return response()->json($error, 404);
@@ -586,7 +578,7 @@ class APIV1Controller extends APIController
 
                 return response()->json($error, 404);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $error['message'] = '404 Not Found!!' . $e;
 
             return response()->json($error, 404);
@@ -624,7 +616,7 @@ class APIV1Controller extends APIController
 
                 return response()->json($error, 404);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $error['message'] = '404 Not Found!!' . $e;
 
             return response()->json($error, 404);
