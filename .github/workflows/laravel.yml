@@ -12,16 +12,16 @@ jobs:
         php:
           - '8.1'
     steps:
-      -   name: Checkout
+      - name: Checkout
         uses: actions/checkout@v2
-      -   name: Setup PHP
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
         php-version: ${{ matrix.php }}
         extensions: curl,mbstring
         tools: php-cs-fixer:${{ env.PHP_CS_FIXER_VERSION }}
         coverage: none
-      -   name: Run PHP-CS-Fixer Fix, version ${{ env.PHP_CS_FIXER_VERSION }}
+      - name: Run PHP-CS-Fixer Fix, version ${{ env.PHP_CS_FIXER_VERSION }}
         run: php-cs-fixer fix --dry-run --diff --ansi
   
   build:
