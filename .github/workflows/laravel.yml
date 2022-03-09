@@ -26,6 +26,12 @@ jobs:
   
   build:
     runs-on: ubuntu-latest
+    name: PHP v${{ matrix.php }} with Mongo v${{ matrix.mongodb }}
+      continue-on-error: ${{ matrix.experimental }}
+      strategy:
+        matrix:
+          include:
+            - { os: ubuntu-latest, php: 8.1, mongodb: '5.0', experimental: false }
     steps:
       - name: "Installing php"
         uses: shivammathur/setup-php@v2
