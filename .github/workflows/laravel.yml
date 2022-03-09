@@ -57,7 +57,7 @@ jobs:
           restore-keys: ${{ matrix.os }}-composer-
       - name: Install dependencies
         run: |
-          composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+          composer install --no-interaction --no-scripts
       - name: Run tests
         run: |
           ./vendor/bin/phpunit --coverage-clover coverage.xml
