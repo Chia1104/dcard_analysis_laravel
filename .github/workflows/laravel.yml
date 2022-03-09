@@ -1,4 +1,4 @@
-name: CI/CD
+name: CI
 
 on: [push]
 
@@ -27,10 +27,31 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-      - name: Install Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
-      - name: Generate key
-        run: php artisan key:generate
+      - name: "Installing php"
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: curl,mbstring,xdebug,mongodb
+          coverage: xdebug
+          tools: composer
+      - name: Show PHP version
+        run: php -v && composer -V
+      - name: Show Docker version
+        run: if [[ "$DEBUG" == "true" ]]; then docker version && env; fi
+        env:
+          DEBUG: ${{secrets.DEBUG}}
+      - name: Download Composer cache dependencies from cache
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Cache Composer dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ matrix.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ matrix.os }}-composer-
+      - name: Install dependencies
+        run: |
+          composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+      - name: Run tests
+        run: |
+          ./vendor/bin/phpunit --coverage-clover coverage.xml
