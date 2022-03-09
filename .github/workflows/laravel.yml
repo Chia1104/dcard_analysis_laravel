@@ -43,9 +43,10 @@ jobs:
       - name: Show PHP version
         run: php -v && composer -V
       - name: Show Docker version
-        run: docker --version
-      - name: Install Dependencies
+        run: docker -v
+      - name: Checkout
         uses: actions/checkout@v2
+      - name: Install Dependencies
         run: |
           composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
       - name: Run tests
