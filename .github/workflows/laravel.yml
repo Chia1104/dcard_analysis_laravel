@@ -12,7 +12,7 @@ jobs:
         include:
           - { os: ubuntu-latest, php: 8.1, mongodb: '5.0', experimental: false }
     steps:
-      - name: "Installing php"
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
@@ -32,8 +32,7 @@ jobs:
       - name: Generate key
         run: php artisan key:generate
       - name: Run tests
-        run: |
-          composer test
+        run: composer test
   php-cs-fixer:
     needs: build
     runs-on: ubuntu-latest
