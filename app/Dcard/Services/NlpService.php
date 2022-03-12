@@ -127,41 +127,43 @@ class NlpService
                     ],
                 ]);
             }),
-            default => $this->_nlp::raw(function ($collection) use ($firstDate, $secondDate) {
-                $firstDate = new UTCDateTime(Carbon::createFromFormat('Y-m', $firstDate)->timestamp * 1000);
-                $secondDate = new UTCDateTime(Carbon::createFromFormat('Y-m', $secondDate)->timestamp * 1000);
+            default => $this->_nlp::raw(
+                function ($collection) use ($firstDate, $secondDate) {
+                    $firstDate = new UTCDateTime(Carbon::createFromFormat('Y-m', $firstDate)->timestamp * 1000);
+                    $secondDate = new UTCDateTime(Carbon::createFromFormat('Y-m', $secondDate)->timestamp * 1000);
 
-                return $collection->aggregate([
-                    [
-                        '$match' => [
-                            'created_at' => [
-                                '$gte' => $firstDate,
-                                '$lte' => $secondDate,
-                            ],
-                        ],
-                    ],
-                    [
-                        '$group' => [
-                            '_id' => [
-                                'year' => [
-                                    '$year' => '$created_at',
-                                ],
-                                'month' => [
-                                    '$month' => '$created_at',
+                    return $collection->aggregate([
+                        [
+                            '$match' => [
+                                'created_at' => [
+                                    '$gte' => $firstDate,
+                                    '$lte' => $secondDate,
                                 ],
                             ],
-                            'avg_score' => [
-                                '$avg' => '$sa_score',
+                        ],
+                        [
+                            '$group' => [
+                                '_id' => [
+                                    'year' => [
+                                        '$year' => '$created_at',
+                                    ],
+                                    'month' => [
+                                        '$month' => '$created_at',
+                                    ],
+                                ],
+                                'avg_score' => [
+                                    '$avg' => '$sa_score',
+                                ],
                             ],
                         ],
-                    ],
-                    [
-                        '$sort' => [
-                            '_id' => -1,
+                        [
+                            '$sort' => [
+                                '_id' => -1,
+                            ],
                         ],
-                    ],
-                ]);
-            }),
+                    ]);
+                }
+            ),
         };
     }
 }
