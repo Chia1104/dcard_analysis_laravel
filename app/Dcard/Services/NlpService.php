@@ -127,8 +127,7 @@ class NlpService
                     ],
                 ]);
             }),
-            default => $this->_nlp::raw(
-                function ($collection) use ($firstDate, $secondDate) {
+            default => $this->_nlp::raw(function ($collection) use ($firstDate, $secondDate) {
                 $firstDate = new UTCDateTime(Carbon::createFromFormat('Y-m', $firstDate)->timestamp * 1000);
                 $secondDate = new UTCDateTime(Carbon::createFromFormat('Y-m', $secondDate)->timestamp * 1000);
 
