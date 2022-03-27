@@ -28,7 +28,7 @@ class ChartAPIController extends APIController
      *      operationId="totalSaClass",
      *      tags={"Chart"},
      *      summary="Get Total SA_Class",
-     *      description="Get Total SA_Class",
+     *      description="Get Total SA_Class, between start and end date",
      *      security={
      *         {
      *              "Authorization": {}
@@ -92,7 +92,7 @@ class ChartAPIController extends APIController
      *      operationId="avgSAScore",
      *      tags={"Chart"},
      *      summary="Get Avg SA_Score",
-     *      description="Get Avg SA_Score",
+     *      description="Get Avg SA_Score, between start and end date in three categories(date , week, month)",
      *      security={
      *         {
      *              "Authorization": {}

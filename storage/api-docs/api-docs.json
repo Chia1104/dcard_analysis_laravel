@@ -176,7 +176,7 @@
                     "Chart"
                 ],
                 "summary": "Get Total SA_Class",
-                "description": "Get Total SA_Class",
+                "description": "Get Total SA_Class, between start and end date",
                 "operationId": "totalSaClass",
                 "parameters": [
                     {
@@ -221,7 +221,7 @@
                     "Chart"
                 ],
                 "summary": "Get Avg SA_Score",
-                "description": "Get Avg SA_Score",
+                "description": "Get Avg SA_Score, between start and end date in three categories(date , week, month)",
                 "operationId": "avgSAScore",
                 "parameters": [
                     {
@@ -340,7 +340,7 @@
                     "Dcard"
                 ],
                 "summary": "Get Dcard",
-                "description": "Get Dcard",
+                "description": "Get Dcard by id",
                 "operationId": "dcard",
                 "parameters": [
                     {
@@ -423,7 +423,7 @@
                     "Dcard"
                 ],
                 "summary": "Get Date Dcards",
-                "description": "Get Date Dcards",
+                "description": "Get Dcards in date",
                 "operationId": "date",
                 "parameters": [
                     {
@@ -461,7 +461,7 @@
                     "Dcard"
                 ],
                 "summary": "Get Max SA_Score",
-                "description": "Get Max SA_Score",
+                "description": "Get Max SA_Score Dcard, between date1 and date2",
                 "operationId": "maxScore",
                 "parameters": [
                     {
@@ -506,7 +506,7 @@
                     "Dcard"
                 ],
                 "summary": "Get Min SA_Score",
-                "description": "Get Min SA_Score",
+                "description": "Get Min SA_Score Dcard, between date1 and date2",
                 "operationId": "minScore",
                 "parameters": [
                     {

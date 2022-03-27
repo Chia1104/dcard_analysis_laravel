@@ -145,7 +145,7 @@ class DcardAPIController extends APIController
      *      operationId="dcard",
      *      tags={"Dcard"},
      *      summary="Get Dcard",
-     *      description="Get Dcard",
+     *      description="Get Dcard by id",
      *      security={
      *         {
      *              "Authorization": {}
@@ -275,7 +275,7 @@ class DcardAPIController extends APIController
      *      operationId="date",
      *      tags={"Dcard"},
      *      summary="Get Date Dcards",
-     *      description="Get Date Dcards",
+     *      description="Get Dcards in date",
      *      security={
      *         {
      *              "Authorization": {}
@@ -337,7 +337,7 @@ class DcardAPIController extends APIController
      *      operationId="maxScore",
      *      tags={"Dcard"},
      *      summary="Get Max SA_Score",
-     *      description="Get Max SA_Score",
+     *      description="Get Max SA_Score Dcard, between date1 and date2",
      *      security={
      *         {
      *              "Authorization": {}
@@ -400,7 +400,7 @@ class DcardAPIController extends APIController
      *      operationId="minScore",
      *      tags={"Dcard"},
      *      summary="Get Min SA_Score",
-     *      description="Get Min SA_Score",
+     *      description="Get Min SA_Score Dcard, between date1 and date2",
      *      security={
      *         {
      *              "Authorization": {}
