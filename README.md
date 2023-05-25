@@ -1,12 +1,10 @@
 # Dcard Analysis Laravel, Rest API
 
-Dcard是大學生常使用的匿名社群網站，大學生會在上面發布有關於學校、課業、日常等等的相關文章。因此學校輔導組希望我們可以透過爬取Dcard上有關長庚大學的文章來及時取得同學們對學校的想法或者是找出情緒不穩定的學生。
+Dcard is an anonymous social community website commonly used by university students, where they can post content related to school, coursework, daily life, and more. As a result, the university counseling department hopes that we can crawl Dcard for articles related to Chang Gung University, in order to obtain timely feedback from students regarding their thoughts on the university, or to identify students who may be experiencing emotional difficulties.
 
-本專題使用Python爬蟲程式將文章內容自動抓取並儲存於資料庫中，並使用MySQL Workbench進行資料庫管理。再透過Snow nlp套件對文章內容進行分析，並將分析結果存入資料庫中。前端部分
-APP撰寫我們選擇使用Android Studio進行開發。系統背景隨時運行著一個偵測程式，若是爬蟲抓下來的文章內容中，出現了過於極端的字眼，系統則會自動透過IFTTT平台的連接，將警告訊息傳送到學校相關師長的Line。
+Our project uses a Python web scraper to automatically retrieve and store article content into a database, using MySQL Workbench for database management. We then utilize the Snow NLP package to analyze article content and store the results in the database. For the frontend, we chose to develop our app using Android Studio. The system is constantly running a detection program, which will automatically utilize the IFTTT platform to send a warning message to school staff via Line if extreme language is detected in the crawled article content.
 
-我們APP主要透過API的連接來設置資料並完成主要功能，前端包含文章列表、圖表(圓餅圖、長條圖和折線圖)、查詢等主要功能。我們後台是用PHP並以Laravel的框架所撰寫的，最後再把專案部署到Cloud Server上，我們選用Google Cloud Platform(GCP)為我
-們的雲端伺服器，使用其中的Cloud Run這項服務來建立API。
+Our app primarily uses API connections to set up data and complete main functions, including an article list, charts (pie chart, bar chart, and line chart), and search function. Our backend is developed using PHP with the Laravel framework, and the final project is deployed onto a Cloud Server. We have chosen Google Cloud Platform (GCP) as our cloud provider, and have utilized their Cloud Run service to establish an API.
 
 
 API V1: It has no longer supported.
